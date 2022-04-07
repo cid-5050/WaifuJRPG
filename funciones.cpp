@@ -1,4 +1,6 @@
 #include "funciones.h"
+#include <Mago.h>
+#include <Barbaro.h>
 
 
 template<typename T> void prettyPrint(T t, int width, char separator) {
@@ -45,4 +47,15 @@ std::string nombreAleatorio(std::string filepath) {
     return linea;
 }
 
+template<typename T> T personajeAleatorio() {
+    std::random_device rd;
+    std::default_random_engine defEngine(rd());
+    std::uniform_int_distribution<int> intDistro(0, 1);
 
+    switch (intDistro(defEngine)) {
+        case 0:
+            return Mago(nombreAleatorio("nombres-a.txt"));
+        case 1:
+            return Barbaro(nombreAleatorio("nombres-a.txt"));
+    }
+}

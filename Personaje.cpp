@@ -1,8 +1,34 @@
 #include "Personaje.h"
 
+Personaje::
+Personaje() {
+}
 
 Personaje::
 Personaje(const std::string & name) {
+    nombre = name;
+}
+
+/*Personaje::Personaje(const Personaje& p) {
+    nombre = p.nombre;
+    clase = p.clase;
+    HP = p.HP;
+    ATK = p.ATK;
+    PATK = p.PATK;
+    MATK = p.MATK;
+    PDEF = p.PDEF;
+    MDEF = p.MDEF;
+    EVA = p.EVA;
+    LCK = p.LCK;
+};*/
+
+std::string Personaje::
+getNombre() const {
+    return nombre;
+}
+
+void Personaje::
+setNombre(std::string name) {
     nombre = name;
 }
 
@@ -156,7 +182,7 @@ randomizarStats() {
 }
 
 void Personaje::
-printStats() {
+printStats() const {
     prettyPrint("-", 30, '-');
     std::cout << std::endl;
     prettyPrintFila({"Nombre", nombre}, {10, 10});
@@ -176,4 +202,10 @@ printStats() {
 
     prettyPrint("-", 30, '-');
     std::cout << std::endl;
+}
+
+int Personaje::
+ataqueBasico(std::shared_ptr<Personaje> defensor) {
+    defensor->HP -= this->ATK;
+    return this->ATK;
 }

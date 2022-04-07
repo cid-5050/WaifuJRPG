@@ -17,4 +17,6 @@ int getINI(std::string section, std::string key);
 
 std::string nombreAleatorio(std::string filepath);
 
+template<typename T> T personajeAleatorio();
+
 #endif // FUNCIONES_H
