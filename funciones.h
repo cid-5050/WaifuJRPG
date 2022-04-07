@@ -5,6 +5,9 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include <fstream>
+#include <random>
+
 
 template<typename T> void prettyPrint(T t, int width, char separator);
 
@@ -12,5 +15,6 @@ void prettyPrintFila(std::vector<std::string> contenidos, std::vector<int> width
 
 int getINI(std::string section, std::string key);
 
+std::string nombreAleatorio(std::string filepath);
 
 #endif // FUNCIONES_H

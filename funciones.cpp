@@ -21,3 +21,26 @@ int getINI(std::string section, std::string key) {
     file.read(ini);
     return std::stoi(ini[section][key]);
 }
+
+std::string nombreAleatorio(std::string filepath) {
+    std::ifstream file(filepath);
+    std::string linea;
+    int total {0};
+
+    std::random_device rd;
+    std::default_random_engine defEngine(rd());
+
+    while (std::getline(file, linea))
+        total++;
+
+    std::uniform_int_distribution<int> intDistro(0, total);
+
+    file.clear();
+    file.seekg(0);
+
+    for (int i {0}; i < intDistro(defEngine); i++) {
+        std::getline(file, linea);
+    }
+
+    return linea;
+}

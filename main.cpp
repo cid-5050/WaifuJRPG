@@ -1,14 +1,15 @@
 #include <iostream>
 #include <Mago.h>
 #include <Barbaro.h>
+#include <funciones.h>
 
 
 int main() {
 
-    Mago mago("Megumin");
-    Barbaro barbaro("Conan");
-    Mago mago2("Roxy");
-    Barbaro barbaro2("Rudeus");
+    Mago mago(nombreAleatorio("nombres-a.txt"));
+    Barbaro barbaro(nombreAleatorio("nombres-b.txt"));
+    Mago mago2(nombreAleatorio("nombres-a.txt"));
+    Barbaro barbaro2(nombreAleatorio("nombres-b.txt"));
 
     mago.randomizarStats();
     barbaro.randomizarStats();

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <random>
 #include <funciones.h>
 
 
@@ -41,6 +42,7 @@ class Personaje {
 
  protected:
     std::string nombre;
+    std::string clase;
 
     int HP;
     int ATK;

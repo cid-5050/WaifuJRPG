@@ -1,5 +1,4 @@
 #include "Personaje.h"
-#include <random>
 
 
 Personaje::
@@ -158,20 +157,23 @@ randomizarStats() {
 
 void Personaje::
 printStats() {
-    prettyPrint("-", 26, '-');
+    prettyPrint("-", 30, '-');
     std::cout << std::endl;
-    prettyPrintFila({"Nombre", nombre}, {8, 8});
-    prettyPrint("-", 26, '-');
+    prettyPrintFila({"Nombre", nombre}, {10, 10});
+    prettyPrint("-", 30, '-');
     std::cout << std::endl;
-    prettyPrintFila({"HP", std::to_string(HP)}, {8, 8});
-    prettyPrintFila({"ATK", std::to_string(ATK)}, {8, 8});
-    prettyPrintFila({"PATK", std::to_string(PATK)}, {8, 8});
-    prettyPrintFila({"MATK", std::to_string(MATK)}, {8, 8});
-    prettyPrintFila({"PDEF", std::to_string(PDEF)}, {8, 8});
-    prettyPrintFila({"MDEF", std::to_string(MDEF)}, {8, 8});
-    prettyPrintFila({"EVA", std::to_string(EVA)}, {8, 8});
-    prettyPrintFila({"LCK", std::to_string(LCK)}, {8, 8});
+    prettyPrintFila({"HP", std::to_string(HP)}, {10, 10});
+    prettyPrintFila({"ATK", std::to_string(ATK)}, {10, 10});
+    prettyPrintFila({"PATK", std::to_string(PATK)}, {10, 10});
+    prettyPrintFila({"MATK", std::to_string(MATK)}, {10, 10});
+    prettyPrintFila({"PDEF", std::to_string(PDEF)}, {10, 10});
+    prettyPrintFila({"MDEF", std::to_string(MDEF)}, {10, 10});
+    prettyPrintFila({"EVA", std::to_string(EVA)}, {10, 10});
+    prettyPrintFila({"LCK", std::to_string(LCK)}, {10, 10});
+    prettyPrint("-", 30, '-');
+    std::cout << std::endl;
+    prettyPrintFila({"Clase", clase}, {10, 10});
 
-    prettyPrint("-", 26, '-');
+    prettyPrint("-", 30, '-');
     std::cout << std::endl;
 }
