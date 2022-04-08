@@ -204,8 +204,13 @@ printStats() const {
     std::cout << std::endl;
 }
 
+bool Personaje::
+dead() const {
+    return (HP <= 0);
+}
+
 int Personaje::
 ataqueBasico(std::shared_ptr<Personaje> defensor) {
-    defensor->HP -= this->ATK;
-    return this->ATK;
+    defensor->HP -= ATK;
+    return ATK;
 }

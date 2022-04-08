@@ -3,6 +3,8 @@
 
 #include <Mago.h>
 #include <Barbaro.h>
+#include <memory>
+
 
 class WaifuJRPG {
   public:
@@ -10,8 +12,8 @@ class WaifuJRPG {
 
     void next(void);
 
-    Personaje p1;
-    Personaje p2;
+    std::shared_ptr<Personaje> p1;
+    std::shared_ptr<Personaje> p2;
 
   private:
     int turno {1};

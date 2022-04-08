@@ -45,6 +45,8 @@ class Personaje {
     void randomizarStats(void);
     void printStats(void) const;
 
+    bool dead(void) const;
+
     int ataqueBasico(std::shared_ptr<Personaje> defensor);
 
  protected:
@@ -65,6 +67,9 @@ class Personaje {
     int bonusPDEF;
     int bonusMDEF;
 
+    // Si hacemos estas variables constantes (deberian serlo)
+    // a la hora de hacer un objeto de Personaje por copia,
+    // lanza un error de copy assignment implicitly deleted
     int MAX_HP {getINI("stats", "max_hp")};
     int MIN_HP {getINI("stats", "min_hp")};
     int MAX_ATK {getINI("stats", "max_atk")};

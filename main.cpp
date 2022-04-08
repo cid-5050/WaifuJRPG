@@ -1,6 +1,6 @@
 #include <iostream>
-//#include <Mago.h>
-//#include <Barbaro.h>
+// #include <Mago.h>
+// #include <Barbaro.h>
 #include <WaifuJRPG.h>
 #include <funciones.h>
 
@@ -29,9 +29,9 @@ int main() {
 
     WaifuJRPG game;
 
-    game.p1.printStats();
+    game.p1->printStats();
     std::cout << std::endl;
-    game.p2.printStats();
+    game.p2->printStats();
     std::cout << std::endl;
 
     game.next();
@@ -39,6 +39,31 @@ int main() {
     game.next();
     std::cout << std::endl;
     game.next();
+    std::cout << std::endl;
+    game.next();
+    std::cout << std::endl;
+    game.next();
+    std::cout << std::endl;
+    game.next();
+    std::cout << std::endl;
+    game.next();
+    std::cout << std::endl;
+    game.next();
+    std::cout << std::endl;
+    game.next();
+    std::cout << std::endl;
+    game.next();
+    std::cout << std::endl;
+    game.next();
+    std::cout << std::endl;
+    game.next();
+    std::cout << std::endl;
+    game.next();
+    std::cout << std::endl;
+
+    game.p1->printStats();
+    std::cout << std::endl;
+    game.p2->printStats();
     std::cout << std::endl;
 
     return 0;
