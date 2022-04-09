@@ -110,3 +110,35 @@ initStats() {
     mana = maxMana;
     stamina = maxStamina;
 }
+
+int Barbaro::
+slash(std::shared_ptr<Personaje> defensor) {
+    std::random_device rd;
+    std::default_random_engine defEngine(rd());
+    std::uniform_int_distribution<int> intDistro(1, 100);
+
+    int base {200};
+    int coste {200};
+    double coef {double(PDEX) / double(defensor->getPRES())};
+    int hit_chance {calcularHitChance(ACC, defensor->getEVA())};
+    int DMG;
+
+
+    if (stamina < coste)
+        return this->ataqueBasico(defensor);
+        //throw std::string("Stamina insuficiente para realizar 'slash'");
+
+
+    if (intDistro(defEngine) > hit_chance) {
+        return 0;
+    }
+
+    DMG = (double(base) * coef) + ((double(ATK) * 3) * (double(defensor->getDEF()) / 200.0));
+
+    if (intDistro(defEngine) <= LCK)
+        DMG *= 2;
+
+    defensor->setHP(defensor->getHP() - DMG);
+    stamina -= coste;
+    return DMG;
+}

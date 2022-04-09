@@ -19,4 +19,6 @@ std::string nombreAleatorio(std::string filepath);
 
 template<typename T> T personajeAleatorio();
 
+int calcularHitChance(double ACC, double EVA);
+
 #endif // FUNCIONES_H

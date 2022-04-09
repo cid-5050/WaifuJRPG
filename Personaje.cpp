@@ -1,12 +1,9 @@
 #include "Personaje.h"
 
-Personaje::
-Personaje() {
-}
 
 Personaje::
-Personaje(const std::string & name) {
-    nombre = name;
+Personaje(const std::string & nombre) {
+    this->nombre = nombre;
 
     VIT = 5;
     END = 5;
@@ -291,8 +288,18 @@ dead() const {
     return (HP <= 0);
 }
 
+void Personaje::
+recarga() {
+    int inc {50};
+    if ((mana + inc) <= maxMana)
+        mana += inc;
+    if ((stamina + inc) <= maxStamina)
+        stamina += inc;
+}
+
 int Personaje::
 ataqueBasico(std::shared_ptr<Personaje> defensor) {
-    defensor->HP -= ATK;
-    return ATK;
+    int DMG {static_cast<int>((double(ATK) * 3) * (double(defensor->DEF) / 200.0))};
+    defensor->HP -= DMG;
+    return DMG;
 }

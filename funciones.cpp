@@ -59,3 +59,10 @@ template<typename T> T personajeAleatorio() {
             return Barbaro(nombreAleatorio("nombres-a.txt"));
     }
 }
+
+int calcularHitChance(double ACC, double EVA) {
+    if (ACC / EVA >= 1.0)
+        return (50.0 + (50.0 - (50.0 / (ACC / EVA)))) + 10;
+    else
+        return (50.0 * ACC / EVA) + 10;
+}

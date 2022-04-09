@@ -9,9 +9,7 @@
 
 class Personaje {
  public:
-    Personaje();
     explicit Personaje(const std::string & nombre);
-    //Personaje(const Personaje &);
 
 
     std::string getNombre(void) const;
@@ -46,6 +44,8 @@ class Personaje {
     void printStats(void) const;
 
     bool dead(void) const;
+
+    void recarga(void);
 
     int ataqueBasico(std::shared_ptr<Personaje> defensor);
 

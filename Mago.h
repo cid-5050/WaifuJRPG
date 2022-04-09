@@ -12,7 +12,7 @@ class Mago : public Personaje {
 
     void initStats(void);
 
-    int ataqueMagico(std::shared_ptr<Personaje> defensor);
+    int fireblast(std::shared_ptr<Personaje> defensor);
 
 };
 

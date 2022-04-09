@@ -12,6 +12,8 @@ class Barbaro : public Personaje {
 
     void initStats(void);
 
+    int slash(std::shared_ptr<Personaje> defensor);
+
 };
 
 #endif // BARBARO_H
