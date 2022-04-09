@@ -7,8 +7,8 @@ WaifuJRPG() {
     p1 = std::make_shared<Personaje>(Mago(nombreAleatorio("nombres-a.txt")));
     p2 = std::make_shared<Personaje>(Barbaro(nombreAleatorio("nombres-b.txt")));
 
-    p1->randomizarStats();
-    p2->randomizarStats();
+    p1->initStats();
+    p2->initStats();
 }
 
 void WaifuJRPG::

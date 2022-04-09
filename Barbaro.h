@@ -10,6 +10,8 @@ class Barbaro : public Personaje {
     using Personaje::Personaje;
     explicit Barbaro(const std::string & nombre);
 
+    void initStats(void);
+
 };
 
 #endif // BARBARO_H

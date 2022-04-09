@@ -7,33 +7,45 @@ Personaje() {
 Personaje::
 Personaje(const std::string & name) {
     nombre = name;
-}
 
-/*Personaje::Personaje(const Personaje& p) {
-    nombre = p.nombre;
-    clase = p.clase;
-    HP = p.HP;
-    ATK = p.ATK;
-    PATK = p.PATK;
-    MATK = p.MATK;
-    PDEF = p.PDEF;
-    MDEF = p.MDEF;
-    EVA = p.EVA;
-    LCK = p.LCK;
-};*/
+    VIT = 5;
+    END = 5;
+    INT = 5;
+    ATK = 5;
+    PDEX = 5;
+    MDEX = 5;
+    DEF = 5;
+    PRES = 5;
+    MRES = 5;
+    ACC = 5;
+    EVA = 5;
+    LCK = 5;
+
+    // Total 0 / 240
+
+    maxHP = VIT * 100;
+    maxMana = INT * 10;
+    maxStamina = END * 10;
+
+    HP = maxHP;
+    mana = maxMana;
+    stamina = maxStamina;
+
+    clase = "Personaje";
+}
 
 std::string Personaje::
 getNombre() const {
     return nombre;
 }
 
-void Personaje::
-setNombre(std::string name) {
-    nombre = name;
+std::string Personaje::
+getClase() const {
+    return clase;
 }
 
 int Personaje::
-getHP(void) const {
+getHP() const {
     return HP;
 }
 
@@ -43,161 +55,231 @@ setHP(int vida) {
 }
 
 int Personaje::
-getATK(void) const {
+getMana() const {
+    return mana;
+}
+
+void Personaje::
+setMana(int mp) {
+    mana = mp;
+}
+
+int Personaje::
+getStamina() const {
+    return stamina;
+}
+
+void Personaje::
+setStamina(int aguante) {
+    stamina = aguante;
+}
+
+int Personaje::
+getMaxHP() const {
+    return maxHP;
+}
+
+int Personaje::
+getMaxMana() const {
+    return maxMana;
+}
+
+int Personaje::
+getMaxStamina() const {
+    return maxStamina;
+}
+
+
+int Personaje::
+getVIT() const {
+    return VIT;
+}
+
+int Personaje::
+getEND() const {
+    return END;
+}
+
+int Personaje::
+getINT() const {
+    return INT;
+}
+
+int Personaje::
+getATK() const {
     return ATK;
 }
 
-void Personaje::
-setATK(int ataque) {
-    ATK = ataque;
+int Personaje::
+getPDEX() const {
+    return PDEX;
 }
 
 int Personaje::
-getPATK(void) const {
-    return PATK;
-}
-
-void Personaje::
-setPATK(int ataque) {
-    PATK = ataque;
+getMDEX() const {
+    return MDEX;
 }
 
 int Personaje::
-getMATK(void) const {
-    return MATK;
-}
-
-void Personaje::
-setMATK(int ataque) {
-    MATK = ataque;
+getDEF() const {
+    return DEF;
 }
 
 int Personaje::
-getPDEF(void) const {
-    return PDEF;
-}
-
-void Personaje::
-setPDEF(int defensa) {
-    PDEF = defensa;
+getPRES() const {
+    return PRES;
 }
 
 int Personaje::
-getMDEF(void) const {
-    return MDEF;
-}
-
-void Personaje::
-setMDEF(int defensa) {
-    MDEF = defensa;
+getMRES() const {
+    return MRES;
 }
 
 int Personaje::
-getEVA(void) const {
+getACC() const {
+    return ACC;
+}
+
+int Personaje::
+getEVA() const {
     return EVA;
 }
 
-void Personaje::
-setEVA(int evasion) {
-    EVA = evasion;
-}
-
 int Personaje::
-getLCK(void) const {
+getLCK() const {
     return LCK;
 }
 
-void Personaje::
-setLCK(int suerte) {
-    LCK = suerte;
-}
-
-int Personaje::
-getBonusPATK(void) const {
-    return bonusPATK;
-}
 
 void Personaje::
-setBonusPATK(int ataque) {
-    bonusPATK = ataque;
-}
-
-int Personaje::
-getBonusMATK(void) const {
-    return bonusMATK;
-}
-
-void Personaje::
-setBonusMATK(int ataque) {
-    bonusMATK = ataque;
-}
-
-int Personaje::
-getBonusPDEF(void) const {
-    return bonusPDEF;
-}
-
-void Personaje::
-setBonusPDEF(int defensa) {
-    bonusPDEF = defensa;
-}
-
-int Personaje::
-getBonusMDEF(void) const {
-    return bonusMDEF;
-}
-
-void Personaje::
-setBonusMDEF(int defensa) {
-    bonusMDEF = defensa;
-}
-
-void Personaje::
-randomizarStats() {
+initStats() {
     std::random_device rd;
     std::default_random_engine defEngine(rd());
-    std::uniform_int_distribution<int> intDistro;
 
-    intDistro.param(std::uniform_int_distribution<int>::param_type(MIN_HP, MAX_HP));
-    HP = intDistro(defEngine);
-    intDistro.param(std::uniform_int_distribution<int>::param_type(MIN_ATK, MAX_ATK));
-    ATK = intDistro(defEngine);
-    intDistro.param(std::uniform_int_distribution<int>::param_type(MIN_PATK, MAX_PATK));
-    PATK = intDistro(defEngine);
-    PATK = ((PATK + bonusPATK) > 0) ? (PATK + bonusPATK) : 0;
-    intDistro.param(std::uniform_int_distribution<int>::param_type(MIN_MATK, MAX_MATK));
-    MATK = intDistro(defEngine);
-    MATK = ((MATK + bonusMATK) > 0) ? (MATK + bonusMATK) : 0;
-    intDistro.param(std::uniform_int_distribution<int>::param_type(MIN_PDEF, MAX_PDEF));
-    PDEF = intDistro(defEngine);
-    PDEF = ((PDEF + bonusPDEF) > 0) ? (PDEF + bonusPDEF) : 0;
-    intDistro.param(std::uniform_int_distribution<int>::param_type(MIN_MDEF, MAX_MDEF));
-    MDEF = intDistro(defEngine);
-    MDEF = ((MDEF + bonusMDEF) > 0) ? (MDEF + bonusMDEF) : 0;
-    intDistro.param(std::uniform_int_distribution<int>::param_type(MIN_EVA, MAX_EVA));
-    EVA = intDistro(defEngine);
-    intDistro.param(std::uniform_int_distribution<int>::param_type(MIN_LCK, MAX_LCK));
-    LCK = intDistro(defEngine);
+    int puntos {100};
+    int statMax {100};
+    std::uniform_int_distribution<int> intDistro(1, 12);
 
+    while (puntos > 0) {
+        switch (intDistro(defEngine)) {
+            case 1:
+                if (VIT < statMax) {
+                    VIT += 5;
+                    puntos--;
+                }
+                break;
+            case 2:
+                if (END < statMax) {
+                    END += 5;
+                    puntos--;
+                }
+                break;
+            case 3:
+                if (INT < statMax) {
+                    INT += 5;
+                    puntos--;
+                }
+                break;
+            case 4:
+                if (ATK < statMax) {
+                    ATK += 5;
+                    puntos--;
+                }
+                break;
+            case 5:
+                if (PDEX < statMax) {
+                    PDEX += 5;
+                    puntos--;
+                }
+                break;
+            case 6:
+                if (MDEX < statMax) {
+                    MDEX += 5;
+                    puntos--;
+                }
+                break;
+            case 7:
+                if (DEF < statMax) {
+                    DEF += 5;
+                    puntos--;
+                }
+                break;
+            case 8:
+                if (PRES < statMax) {
+                    PRES += 5;
+                    puntos--;
+                }
+                break;
+            case 9:
+                if (MRES < statMax) {
+                    MRES += 5;
+                    puntos--;
+                }
+                break;
+            case 10:
+                if (ACC < statMax) {
+                    ACC += 5;
+                    puntos--;
+                }
+                break;
+            case 11:
+                if (EVA < statMax) {
+                    EVA += 5;
+                    puntos--;
+                }
+                break;
+            case 12:
+                if (LCK < statMax) {
+                    LCK += 5;
+                    puntos--;
+                }
+                break;
+        }
+    }
+
+    maxHP = VIT * 100;
+    maxMana = INT * 10;
+    maxStamina = END * 10;
+
+    HP = maxHP;
+    mana = maxMana;
+    stamina = maxStamina;
 }
+
 
 void Personaje::
 printStats() const {
     prettyPrint("-", 30, '-');
     std::cout << std::endl;
+
     prettyPrintFila({"Nombre", nombre}, {10, 10});
+
     prettyPrint("-", 30, '-');
     std::cout << std::endl;
+
     prettyPrintFila({"HP", std::to_string(HP)}, {10, 10});
+    prettyPrintFila({"Mana", std::to_string(mana)}, {10, 10});
+    prettyPrintFila({"Stamina", std::to_string(stamina)}, {10, 10});
+
+    prettyPrint("-", 30, '-');
+    std::cout << std::endl;
+
+    prettyPrintFila({"VIT", std::to_string(VIT)}, {10, 10});
+    prettyPrintFila({"END", std::to_string(END)}, {10, 10});
+    prettyPrintFila({"INT", std::to_string(INT)}, {10, 10});
     prettyPrintFila({"ATK", std::to_string(ATK)}, {10, 10});
-    prettyPrintFila({"PATK", std::to_string(PATK)}, {10, 10});
-    prettyPrintFila({"MATK", std::to_string(MATK)}, {10, 10});
-    prettyPrintFila({"PDEF", std::to_string(PDEF)}, {10, 10});
-    prettyPrintFila({"MDEF", std::to_string(MDEF)}, {10, 10});
+    prettyPrintFila({"PDEX", std::to_string(PDEX)}, {10, 10});
+    prettyPrintFila({"MDEX", std::to_string(MDEX)}, {10, 10});
+    prettyPrintFila({"DEF", std::to_string(DEF)}, {10, 10});
+    prettyPrintFila({"PRES", std::to_string(PRES)}, {10, 10});
+    prettyPrintFila({"MRES", std::to_string(MRES)}, {10, 10});
+    prettyPrintFila({"ACC", std::to_string(ACC)}, {10, 10});
     prettyPrintFila({"EVA", std::to_string(EVA)}, {10, 10});
     prettyPrintFila({"LCK", std::to_string(LCK)}, {10, 10});
+
     prettyPrint("-", 30, '-');
     std::cout << std::endl;
+
     prettyPrintFila({"Clase", clase}, {10, 10});
 
     prettyPrint("-", 30, '-');

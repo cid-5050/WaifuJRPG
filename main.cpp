@@ -3,68 +3,53 @@
 // #include <Barbaro.h>
 #include <WaifuJRPG.h>
 #include <funciones.h>
+#include <memory>
 
 
 int main() {
 
-    // Mago mago(nombreAleatorio("nombres-a.txt"));
-    // Barbaro barbaro(nombreAleatorio("nombres-b.txt"));
-    // Mago mago2(nombreAleatorio("nombres-a.txt"));
-    // Barbaro barbaro2(nombreAleatorio("nombres-b.txt"));
+    std::shared_ptr<Mago> mago = std::make_shared<Mago>(Mago(nombreAleatorio("nombres-a.txt")));
+    std::shared_ptr<Barbaro> barbaro = std::make_shared<Barbaro>(Barbaro(nombreAleatorio("nombres-b.txt")));
 
-    // mago.randomizarStats();
-    // barbaro.randomizarStats();
-    // mago2.randomizarStats();
-    // barbaro2.randomizarStats();
+    mago->initStats();
+    barbaro->initStats();
 
-    // mago.printStats();
-    // std::cout << std::endl;
-    // barbaro.printStats();
-    // std::cout << std::endl;
-    // mago2.printStats();
-    // std::cout << std::endl;
-    // barbaro2.printStats();
-    // std::cout << std::endl;
+    mago->printStats();
+    std::cout << std::endl;
+    barbaro->printStats();
+    std::cout << std::endl;
 
 
-    WaifuJRPG game;
+    int turno {0};
+    std::shared_ptr<Personaje> agresor;
+    std::shared_ptr<Personaje> defensor;
 
-    game.p1->printStats();
-    std::cout << std::endl;
-    game.p2->printStats();
-    std::cout << std::endl;
+    while (true) {
+        if (turno % 2 == 0) {
+            agresor = mago;
+            defensor = barbaro;
+        } else {
+            agresor = barbaro;
+            defensor = mago;
+        }
 
-    game.next();
-    std::cout << std::endl;
-    game.next();
-    std::cout << std::endl;
-    game.next();
-    std::cout << std::endl;
-    game.next();
-    std::cout << std::endl;
-    game.next();
-    std::cout << std::endl;
-    game.next();
-    std::cout << std::endl;
-    game.next();
-    std::cout << std::endl;
-    game.next();
-    std::cout << std::endl;
-    game.next();
-    std::cout << std::endl;
-    game.next();
-    std::cout << std::endl;
-    game.next();
-    std::cout << std::endl;
-    game.next();
-    std::cout << std::endl;
-    game.next();
-    std::cout << std::endl;
+        std::cout << "Turno: " << turno << std::endl;
+        std::cout << agresor->getNombre() << " realiza Ataque Basico contra "
+                  << defensor->getNombre() << std::endl;
+        std::cout << defensor->getNombre() << " recibe "
+                  << agresor->ataqueBasico(defensor) << " puntos de DMG." << std::endl;
 
-    game.p1->printStats();
-    std::cout << std::endl;
-    game.p2->printStats();
-    std::cout << std::endl;
+        std::cout << std::endl;
+
+        if (defensor->dead()) {
+            std::cout << defensor->getNombre() << " ha muerto!" << std::endl;
+            break;
+        }
+
+        turno++;
+    }
+
+    std::cout << agresor->getNombre() << " es la vencedora!" << std::endl;
 
     return 0;
 }

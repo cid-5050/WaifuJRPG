@@ -15,34 +15,34 @@ class Personaje {
 
 
     std::string getNombre(void) const;
-    void setNombre(std::string name);
+    std::string getClase(void) const;
+
     int getHP(void) const;
     void setHP(int vida);
+    int getMana(void) const;
+    void setMana(int mp);
+    int getStamina(void) const;
+    void setStamina(int aguante);
+
+    int getMaxHP(void) const;
+    int getMaxMana(void) const;
+    int getMaxStamina(void) const;
+
+    int getVIT(void) const;
+    int getEND(void) const;
+    int getINT(void) const;
     int getATK(void) const;
-    void setATK(int ataque);
-    int getPATK(void) const;
-    void setPATK(int ataque);
-    int getMATK(void) const;
-    void setMATK(int ataque);
-    int getPDEF(void) const;
-    void setPDEF(int defensa);
-    int getMDEF(void) const;
-    void setMDEF(int defensa);
+    int getPDEX(void) const;
+    int getMDEX(void) const;
+    int getDEF(void) const;
+    int getPRES(void) const;
+    int getMRES(void) const;
+    int getACC(void) const;
     int getEVA(void) const;
-    void setEVA(int evasion);
     int getLCK(void) const;
-    void setLCK(int suerte);
 
-    int getBonusPATK(void) const;
-    void setBonusPATK(int ataque);
-    int getBonusMATK(void) const;
-    void setBonusMATK(int ataque);
-    int getBonusPDEF(void) const;
-    void setBonusPDEF(int defensa);
-    int getBonusMDEF(void) const;
-    void setBonusMDEF(int defensa);
 
-    void randomizarStats(void);
+    void initStats(void);
     void printStats(void) const;
 
     bool dead(void) const;
@@ -54,38 +54,24 @@ class Personaje {
     std::string clase;
 
     int HP;
-    int ATK;
-    int PATK;
-    int MATK;
-    int PDEF;
-    int MDEF;
-    int EVA;
-    int LCK;
+    int maxHP;
+    int mana;
+    int maxMana;
+    int stamina;
+    int maxStamina;
 
-    int bonusPATK;
-    int bonusMATK;
-    int bonusPDEF;
-    int bonusMDEF;
-
-    // Si hacemos estas variables constantes (deberian serlo)
-    // a la hora de hacer un objeto de Personaje por copia,
-    // lanza un error de copy assignment implicitly deleted
-    int MAX_HP {getINI("stats", "max_hp")};
-    int MIN_HP {getINI("stats", "min_hp")};
-    int MAX_ATK {getINI("stats", "max_atk")};
-    int MIN_ATK {getINI("stats", "min_atk")};
-    int MAX_PATK {getINI("stats", "max_patk")};
-    int MIN_PATK {getINI("stats", "min_patk")};
-    int MAX_MATK {getINI("stats", "max_matk")};
-    int MIN_MATK {getINI("stats", "min_matk")};
-    int MAX_PDEF {getINI("stats", "max_pdef")};
-    int MIN_PDEF {getINI("stats", "min_pdef")};
-    int MAX_MDEF {getINI("stats", "max_mdef")};
-    int MIN_MDEF {getINI("stats", "min_mdef")};
-    int MAX_EVA {getINI("stats", "max_eva")};
-    int MIN_EVA {getINI("stats", "min_eva")};
-    int MAX_LCK {getINI("stats", "max_lck")};
-    int MIN_LCK {getINI("stats", "min_lck")};
+    int VIT;    // Afecta HP
+    int END;    // Afecta stamina
+    int INT;    // Afecta mana
+    int ATK;    // Afecta todos los ataques
+    int PDEX;   // Afecta ataques físicos
+    int MDEX;   // Afecta ataques mágicos
+    int DEF;    // Afecta todos los ataques
+    int PRES;   // Afecta ataques físicos
+    int MRES;   // Afecta ataques mágicos
+    int ACC;    // Afecta probabilidad de acertar
+    int EVA;    // Afecta probabilidad de evadir
+    int LCK;    // Afecta probabilidad de críticos y RNG
 };
 
 
