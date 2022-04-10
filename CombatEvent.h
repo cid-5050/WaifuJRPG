@@ -14,6 +14,11 @@ class CombatEvent {
     int getDMG(void) const;
     std::string getAtaque(void) const;
 
+    std::shared_ptr<Personaje> getAgresor(void) const;
+    std::shared_ptr<Personaje> getDefensor(void) const;
+
+    void setAgresorDefensor(std::shared_ptr<Personaje> agresor,
+                            std::shared_ptr<Personaje> defensor);
     void saveDatosAtaque(std::string ataque, int DMG, bool miss, bool critico);
 
  protected:

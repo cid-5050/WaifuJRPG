@@ -9,10 +9,8 @@
 
 int main() {
 
-    std::shared_ptr<Personaje> mago = std::make_shared<Mago>(Mago(nombreAleatorio("nombres-a.txt")));
+    /*std::shared_ptr<Personaje> mago = std::make_shared<Mago>(Mago(nombreAleatorio("nombres-a.txt")));
     std::shared_ptr<Personaje> barbaro = std::make_shared<Barbaro>(Barbaro(nombreAleatorio("nombres-b.txt")));
-
-    std::vector<std::shared_ptr<CombatEvent>> eventos;
 
     mago->initStats();
     barbaro->initStats();
@@ -21,52 +19,46 @@ int main() {
     std::cout << std::endl;
     barbaro->printStats();
     std::cout << std::endl;
+    */
 
+    WaifuJRPG game;
 
-    int turno {0};
-    std::shared_ptr<Personaje> agresor;
-    std::shared_ptr<Personaje> defensor;
-    std::shared_ptr<CombatEvent> evento {std::make_shared<CombatEvent>(CombatEvent(turno))};
+    game.p1->printStats();
+    std::cout << std::endl;
+    game.p2->printStats();
+    std::cout << std::endl;
 
     while (true) {
-        if (turno % 2 == 0) {
-            agresor = mago;
-            defensor = barbaro;
-        } else {
-            agresor = barbaro;
-            defensor = mago;
-        }
+        game.next();
 
-        agresor->recarga();
-        agresor->ataque(defensor, evento);
+        std::cout << "Turno: " << game.getTurno() << std::endl;
 
-        std::cout << "Turno: " << turno << std::endl;
+        std::cout << game.evento()->getAgresor()->getNombre()
+                  << " utiliza '" << game.evento()->getAtaque()
+                  << "' contra " << game.evento()->getDefensor()->getNombre() << "...";
 
-        std::cout << agresor->getNombre() << " utiliza '" << evento->getAtaque()
-                  << "' contra " << defensor->getNombre() << "...";
-
-        if (evento->miss()) {
+        if (game.evento()->miss()) {
             std::cout << " pero ha fallado." << std::endl;
         } else {
             std::cout << std::endl;
-            if (evento->critico())
+            if (game.evento()->critico())
                 std::cout << "Es critico!" << std::endl;
 
-            std::cout << defensor->getNombre() << " recibe "
-                      << evento->getDMG() << " puntos de DMG." << std::endl;
+            std::cout << game.evento()->getDefensor()->getNombre() << " recibe "
+                      << game.evento()->getDMG() << " puntos de DMG." << std::endl;
         }
 
         std::cout << std::endl;
 
-        if (defensor->dead()) {
-            std::cout << defensor->getNombre() << " ha muerto!" << std::endl;
+        if (game.evento()->getDefensor()->dead()) {
+            std::cout << game.evento()->getDefensor()->getNombre()
+                      << " ha muerto!" << std::endl;
             break;
         }
-
-        turno++;
     }
 
-    std::cout << agresor->getNombre() << " es la vencedora!" << std::endl;
+    std::cout << game.evento()->getAgresor()->getNombre()
+              << " es la vencedora!" << std::endl;
     std::cout << std::endl;
 
     return 0;

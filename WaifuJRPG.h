@@ -10,13 +10,17 @@ class WaifuJRPG {
   public:
     WaifuJRPG();
 
-    void next(void);
-
     std::shared_ptr<Personaje> p1;
     std::shared_ptr<Personaje> p2;
 
+    int getTurno(void) const;
+
+    std::shared_ptr<CombatEvent> evento(void) const;
+    void next(void);
+
   private:
-    int turno {1};
+    int turno {0};
+    std::vector<std::shared_ptr<CombatEvent>> eventos;
 
 
 };

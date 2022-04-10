@@ -4,17 +4,29 @@
 
 WaifuJRPG::
 WaifuJRPG() {
-    p1 = std::make_shared<Personaje>(Mago(nombreAleatorio("nombres-a.txt")));
-    p2 = std::make_shared<Personaje>(Barbaro(nombreAleatorio("nombres-b.txt")));
+    p1 = std::make_shared<Mago>(Mago(nombreAleatorio("nombres-a.txt")));
+    p2 = std::make_shared<Barbaro>(Barbaro(nombreAleatorio("nombres-b.txt")));
 
     p1->initStats();
     p2->initStats();
+}
+
+int WaifuJRPG::
+getTurno(void) const {
+    return turno;
+}
+
+std::shared_ptr<CombatEvent> WaifuJRPG::
+evento(void) const {
+    return eventos.back();
 }
 
 void WaifuJRPG::
 next() {
     std::shared_ptr<Personaje> agresor;
     std::shared_ptr<Personaje> defensor;
+
+    eventos.push_back(std::make_shared<CombatEvent>(CombatEvent(turno)));
 
     if (turno % 2 == 0) {
         agresor = p1;
@@ -24,15 +36,10 @@ next() {
         defensor = p1;
     }
 
-    std::cout << "Turno: " << turno << std::endl;
-    std::cout << agresor->getNombre() << " realiza Ataque Basico contra "
-              << defensor->getNombre() << std::endl;
-    std::cout << defensor->getNombre() << " recibe "
-              << "agresor->ataqueBasico(defensor)" << " puntos de DMG." << std::endl;
+    agresor->recarga();
+    agresor->ataque(defensor, this->evento());
 
-    if (defensor->dead()) {
-        std::cout << defensor->getNombre() << " ha muerto!" << std::endl;
-    }
+    this->evento()->setAgresorDefensor(agresor, defensor);
 
     turno++;
 }
