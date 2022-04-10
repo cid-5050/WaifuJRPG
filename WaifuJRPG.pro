@@ -5,6 +5,7 @@ CONFIG -= qt
 
 SOURCES += \
         Barbaro.cpp \
+        CombatEvent.cpp \
         Mago.cpp \
         Personaje.cpp \
         Skill.cpp \
@@ -14,6 +15,7 @@ SOURCES += \
 
 HEADERS += \
     Barbaro.h \
+    CombatEvent.h \
     Mago.h \
     Personaje.h \
     Skill.h \

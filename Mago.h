@@ -12,7 +12,8 @@ class Mago : public Personaje {
 
     void initStats(void);
 
-    int fireblast(std::shared_ptr<Personaje> defensor);
+    int ataque(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento);
+    int fireblast(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento);
 
 };
 

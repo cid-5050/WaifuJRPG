@@ -28,7 +28,7 @@ next() {
     std::cout << agresor->getNombre() << " realiza Ataque Basico contra "
               << defensor->getNombre() << std::endl;
     std::cout << defensor->getNombre() << " recibe "
-              << agresor->ataqueBasico(defensor) << " puntos de DMG." << std::endl;
+              << "agresor->ataqueBasico(defensor)" << " puntos de DMG." << std::endl;
 
     if (defensor->dead()) {
         std::cout << defensor->getNombre() << " ha muerto!" << std::endl;

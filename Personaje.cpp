@@ -28,6 +28,8 @@ Personaje(const std::string & nombre) {
     mana = maxMana;
     stamina = maxStamina;
 
+    //habilidades.push_back(std::make_shared<Skill>());
+
     clase = "Personaje";
 }
 
@@ -298,8 +300,17 @@ recarga() {
 }
 
 int Personaje::
-ataqueBasico(std::shared_ptr<Personaje> defensor) {
-    int DMG {static_cast<int>((double(ATK) * 3) * (double(defensor->DEF) / 200.0))};
+ataque(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento) {
+    return ataqueBasico(defensor, evento);
+}
+
+int Personaje::
+ataqueBasico(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento) {
+    //int DMG {static_cast<int>((double(ATK) * 3) * (double(defensor->DEF) / 200.0))};
+
+    int DMG = ATK;
     defensor->HP -= DMG;
+
+    evento->saveDatosAtaque("Ataque Basico", DMG, false, false);
     return DMG;
 }

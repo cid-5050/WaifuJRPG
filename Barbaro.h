@@ -12,7 +12,8 @@ class Barbaro : public Personaje {
 
     void initStats(void);
 
-    int slash(std::shared_ptr<Personaje> defensor);
+    int ataque(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento);
+    int slash(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento);
 
 };
 

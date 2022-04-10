@@ -5,7 +5,11 @@
 #include <string>
 #include <random>
 #include <funciones.h>
+#include <Skill.h>
+#include <CombatEvent.h>
 
+
+class CombatEvent;
 
 class Personaje {
  public:
@@ -40,14 +44,15 @@ class Personaje {
     int getLCK(void) const;
 
 
-    void initStats(void);
+    virtual void initStats(void);
     void printStats(void) const;
 
     bool dead(void) const;
 
     void recarga(void);
 
-    int ataqueBasico(std::shared_ptr<Personaje> defensor);
+    virtual int ataque(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento);
+    int ataqueBasico(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento);
 
  protected:
     std::string nombre;
@@ -72,6 +77,8 @@ class Personaje {
     int ACC;    // Afecta probabilidad de acertar
     int EVA;    // Afecta probabilidad de evadir
     int LCK;    // Afecta probabilidad de críticos y RNG
+
+    std::vector<std::shared_ptr<Skill>> habilidades;
 };
 
 
