@@ -11,14 +11,27 @@
 
 template<typename T> void prettyPrint(T t, int width, char separator);
 
-void prettyPrintFila(std::vector<std::string> contenidos, std::vector<int> widths);
+void prettyPrintFila(const std::vector<std::string> & contenidos,
+                     const std::vector<int> & widths);
 
-int getINI(std::string section, std::string key);
+int getINI(const std::string & section, const std::string & key);
 
-std::string nombreAleatorio(std::string filepath);
+std::string nombreAleatorio(const std::string & filepath);
 
 template<typename T> T personajeAleatorio();
 
 int calcularHitChance(double ACC, double EVA);
+
+struct PrinterPareja {
+    int wColumna {0};
+    int wMargen {0};
+    int wEspacio {0};
+
+    void fila(const std::string & nombre,
+              const std::string & contenidoA,
+              const std::string & contenidoB) const;
+    void linea(void) const;
+    std::string margen(void) const;
+};
 
 #endif // FUNCIONES_H

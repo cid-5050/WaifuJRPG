@@ -7,7 +7,8 @@ template<typename T> void prettyPrint(T t, int width, char separator) {
     std::cout << std::left << std::setw(width) << std::setfill(separator) << t;
 }
 
-void prettyPrintFila(std::vector<std::string> contenidos, std::vector<int> widths) {
+void prettyPrintFila(const std::vector<std::string> & contenidos,
+                     const std::vector<int> & widths) {
     for (int i {0}; i < static_cast<int>(contenidos.size()); i++) {
         prettyPrint("||", 4, ' ');
         prettyPrint(contenidos.at(i), widths.at(i), ' ');
@@ -16,7 +17,7 @@ void prettyPrintFila(std::vector<std::string> contenidos, std::vector<int> width
     std::cout << std::endl;
 }
 
-int getINI(std::string section, std::string key) {
+int getINI(const std::string & section, const std::string & key) {
     mINI::INIFile file("config.ini");
     mINI::INIStructure ini;
 
@@ -24,7 +25,7 @@ int getINI(std::string section, std::string key) {
     return std::stoi(ini[section][key]);
 }
 
-std::string nombreAleatorio(std::string filepath) {
+std::string nombreAleatorio(const std::string & filepath) {
     std::ifstream file(filepath);
     std::string linea;
     int total {0};
@@ -65,4 +66,46 @@ int calcularHitChance(double ACC, double EVA) {
         return (50.0 + (50.0 - (50.0 / (ACC / EVA)))) + 10;
     else
         return (50.0 * ACC / EVA) + 10;
+}
+
+void PrinterPareja::
+fila(const std::string & nombre,
+     const std::string & contenidoA,
+     const std::string & contenidoB) const {
+    std::cout << std::left
+              << std::setw(wMargen) << ""
+              << "||  "
+              << std::setw(wColumna) << nombre
+              << "||  "
+              << std::setw(wColumna) << contenidoA
+              << "||"
+              << std::setw(wEspacio) << ""
+              << "||  "
+              << std::setw(wColumna) << nombre
+              << "||  "
+              << std::setw(wColumna) << contenidoB
+              << "||"
+              << std::endl;
+}
+
+void PrinterPareja::
+linea() const {
+    std::cout << std::left
+              << std::setw(wMargen) << ""
+              << std::setfill('-')
+              << std::setw((wColumna * 2) + 10) << ""
+              << std::setfill(' ')
+              << std::setw(wEspacio) << ""
+              << std::setfill('-')
+              << std::setw((wColumna * 2) + 10) << ""
+              << std::setfill(' ')
+              << std::endl;
+}
+
+std::string PrinterPareja::
+margen() const {
+    std::stringstream o;
+    o << std::left
+      << std::setw(wMargen) << "";
+    return o.str();
 }
