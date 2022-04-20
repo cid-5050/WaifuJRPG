@@ -113,34 +113,14 @@ initStats() {
     stamina = maxStamina;
 }
 
-/*
-int Barbaro::
-slash(std::shared_ptr<Personaje> defensor) {
-    //std::random_device rd;
-    //std::default_random_engine defEngine(rd());
-    //std::uniform_int_distribution<int> intDistro(1, 100);
-
-    int DMG;
-    int base {200};
-    int coste {200};
-    double coef {double(PDEX) / double(defensor->getPRES())};
-
-    if (stamina < coste)
-        return this->ataqueBasico(defensor);
-        //throw std::string("Stamina insuficiente para realizar 'slash'");
-
-    DMG = (double(base) * coef) + ((double(ATK) * 3) * (double(defensor->getDEF()) / 200.0));
-
-    stamina -= coste;
-    return DMG;
-}
-*/
 
 void Barbaro::
 actuar(std::shared_ptr<CombatEvent> evento) {
     std::random_device rd;
     std::default_random_engine defEngine(rd());
     std::uniform_int_distribution<int> intDistro(1, 100);
+
+    setAdversario(adversarioAleatorio());
 
     int hitChance {calcularHitChance(ACC, getAdversario()->getEVA())};
     std::shared_ptr<Skill> ataque {ataqueAleatorio()};
@@ -157,7 +137,7 @@ actuar(std::shared_ptr<CombatEvent> evento) {
             miss = true;
 
         } else {
-            DMG = ataque->perform(getAdversario());
+            DMG = ataque->perform();
 
             if (intDistro(defEngine) <= LCK) {
                 DMG *= 2;

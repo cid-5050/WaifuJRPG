@@ -3,9 +3,7 @@
 
 #include <string>
 #include <functional>
-#include <Personaje.h>
-
-class Personaje;
+#include <memory>
 
 
 class Skill {
@@ -13,20 +11,20 @@ class Skill {
  public:
     Skill(std::string nombre,
           int coste,
-          std::shared_ptr<std::function<int(std::shared_ptr<Personaje>)>> func);
+          std::shared_ptr<std::function<int(void)>> func);
 
     std::string getNombre(void) const;
     int getCoste(void) const;
     std::string getTipo(void) const;
 
 
-    int perform(std::shared_ptr<Personaje> defensor);
+    int perform(void);
 
 
  protected:
     std::string nombre;
     int coste;
-    std::shared_ptr<std::function<int(std::shared_ptr<Personaje>)>> func;
+    std::shared_ptr<std::function<int(void)>> func;
     std::string tipo;
 };
 
@@ -37,7 +35,7 @@ class MagicSkill : public Skill {
     using Skill::Skill;
     MagicSkill(std::string nombre,
                int coste,
-               std::shared_ptr<std::function<int(std::shared_ptr<Personaje>)>> func);
+               std::shared_ptr<std::function<int(void)>> func);
 };
 
 
@@ -47,7 +45,7 @@ class PhysSkill : public Skill {
     using Skill::Skill;
     PhysSkill(std::string nombre,
                int coste,
-               std::shared_ptr<std::function<int(std::shared_ptr<Personaje>)>> func);
+               std::shared_ptr<std::function<int(void)>> func);
 };
 
 

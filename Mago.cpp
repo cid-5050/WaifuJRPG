@@ -113,56 +113,14 @@ initStats() {
     stamina = maxStamina;
 }
 
-/*
-int Mago::
-fireblast(std::shared_ptr<Personaje> defensor) {
-    //std::random_device rd;
-    //std::default_random_engine defEngine(rd());
-    //std::uniform_int_distribution<int> intDistro(1, 100);
-
-    int DMG;
-    int base {200};
-    int coste {200};
-    double coef {double(MDEX) / double(defensor->getMRES())};
-
-    if (mana < coste)
-        return this->ataqueBasico(defensor);
-        //throw std::string("Mana insuficiente para realizar 'fireblast'");
-
-    DMG = (double(base) * coef) + ((double(ATK) * 3) * (double(defensor->getDEF()) / 200.0));
-
-    mana -= coste;
-    return DMG;
-}
-*/
-
-/*
-int Mago::
-fireblast(std::shared_ptr<Personaje> defensor) {
-    std::cout << getNombre() << std::endl;
-
-    int DMG;
-    int base {200};
-    double coef {double(MDEX) / double(defensor->getMRES())};
-
-    std::cout << double(getMDEX()) << std::endl;
-    std::cout << double(MDEX) << std::endl;
-    std::cout << double(defensor->getMRES()) << std::endl;
-    std::cout << coef << std::endl;
-
-    DMG = (double(base) * coef) + ((double(ATK) * 3) * (double(defensor->getDEF()) / 200.0));
-
-    std::cout << DMG << std::endl;
-
-    return DMG;
-}*/
-
 
 void Mago::
 actuar(std::shared_ptr<CombatEvent> evento) {
     std::random_device rd;
     std::default_random_engine defEngine(rd());
     std::uniform_int_distribution<int> intDistro(1, 100);
+
+    setAdversario(adversarioAleatorio());
 
     int hitChance {calcularHitChance(ACC, getAdversario()->getEVA())};
     std::shared_ptr<Skill> ataque {ataqueAleatorio()};
@@ -179,7 +137,7 @@ actuar(std::shared_ptr<CombatEvent> evento) {
             miss = true;
 
         } else {
-            DMG = ataque->perform(getAdversario());
+            DMG = ataque->perform();
 
             if (intDistro(defEngine) <= LCK) {
                 DMG *= 2;

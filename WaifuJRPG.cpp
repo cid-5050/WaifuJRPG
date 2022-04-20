@@ -7,8 +7,8 @@ WaifuJRPG() {
     p1 = std::make_shared<Mago>(nombreAleatorio("nombres-a.txt"));
     p2 = std::make_shared<Barbaro>(nombreAleatorio("nombres-b.txt"));
 
-    p1->setAdversario(p2);
-    p2->setAdversario(p1);
+    p1->addAdversario(p2);
+    p2->addAdversario(p1);
 
     p1->initStats();
     p2->initStats();

@@ -157,6 +157,19 @@ setAdversario(std::shared_ptr<Personaje> adversario) {
     this->adversario = adversario;
 }
 
+void Personaje::
+addAdversario(std::shared_ptr<Personaje> adversario) {
+    adversarios.push_back(adversario);
+}
+
+std::shared_ptr<Personaje> Personaje::
+adversarioAleatorio() const {
+    std::random_device rd;
+    std::default_random_engine defEngine(rd());
+    std::uniform_int_distribution<int> intDistro(0, adversarios.size() - 1);
+    return adversarios.at(intDistro(defEngine));
+}
+
 
 void Personaje::
 initStats() {

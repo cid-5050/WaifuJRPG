@@ -47,6 +47,9 @@ class Personaje {
     std::shared_ptr<Personaje> getAdversario(void) const;
     void setAdversario(std::shared_ptr<Personaje> adversario);
 
+    void addAdversario(std::shared_ptr<Personaje> adversario);
+    std::shared_ptr<Personaje> adversarioAleatorio(void) const;
+
 
     virtual void initStats(void);
     void printStats(void) const;
@@ -87,6 +90,7 @@ class Personaje {
     int LCK;    // Afecta probabilidad de críticos y RNG
 
     std::shared_ptr<Personaje> adversario;
+    std::vector<std::shared_ptr<Personaje>> adversarios;
 
     std::vector<std::shared_ptr<Skill>> ataques;
 

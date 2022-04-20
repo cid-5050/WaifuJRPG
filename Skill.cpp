@@ -3,7 +3,7 @@
 Skill::
 Skill(std::string nombre,
       int coste,
-      std::shared_ptr<std::function<int(std::shared_ptr<Personaje>)>> func)
+      std::shared_ptr<std::function<int(void)>> func)
 {
     this->nombre = nombre;
     this->coste = coste;
@@ -14,7 +14,7 @@ Skill(std::string nombre,
 MagicSkill::
 MagicSkill(std::string nombre,
            int coste,
-           std::shared_ptr<std::function<int(std::shared_ptr<Personaje>)>> func
+           std::shared_ptr<std::function<int(void)>> func
            ) : Skill(nombre, coste, func)
 {
     tipo = "Magico";
@@ -23,7 +23,7 @@ MagicSkill(std::string nombre,
 PhysSkill::
 PhysSkill(std::string nombre,
            int coste,
-           std::shared_ptr<std::function<int(std::shared_ptr<Personaje>)>> func
+           std::shared_ptr<std::function<int(void)>> func
            ) : Skill(nombre, coste, func)
 {
     tipo = "Fisico";
@@ -45,6 +45,6 @@ getTipo(void) const {
 }
 
 int Skill::
-perform(std::shared_ptr<Personaje> defensor) {
-    return (*func)(defensor);
+perform() {
+    return (*func)();
 }

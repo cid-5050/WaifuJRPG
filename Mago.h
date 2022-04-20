@@ -18,14 +18,14 @@ class Mago : public Personaje {
 
 
  private:
-    std::shared_ptr<std::function<int(std::shared_ptr<Personaje>)>>
-    fireblast = std::make_shared<std::function<int(std::shared_ptr<Personaje>)>>(
-        [this] (std::shared_ptr<Personaje> defensor) {
+    std::shared_ptr<std::function<int(void)>>
+    fireblast = std::make_shared<std::function<int(void)>>(
+        [this] (void) {
             int DMG;
             int base {200};
-            double coef {double(MDEX) / double(defensor->getMRES())};
+            double coef {double(MDEX) / double(adversario->getMRES())};
 
-            DMG = (double(base) * coef) + ((double(ATK) * 3) * (double(defensor->getDEF()) / 200.0));
+            DMG = (double(base) * coef) + ((double(ATK) * 3) * (double(adversario->getDEF()) / 200.0));
             return DMG;
         }
     );
