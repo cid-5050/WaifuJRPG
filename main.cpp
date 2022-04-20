@@ -1,6 +1,4 @@
 #include <iostream>
-// #include <Mago.h>
-// #include <Barbaro.h>
 #include <WaifuJRPG.h>
 #include <CombatEvent.h>
 #include <funciones.h>
@@ -9,33 +7,34 @@
 
 int main() {
 
-    /*std::shared_ptr<Personaje> mago = std::make_shared<Mago>(Mago(nombreAleatorio("nombres-a.txt")));
-    std::shared_ptr<Personaje> barbaro = std::make_shared<Barbaro>(Barbaro(nombreAleatorio("nombres-b.txt")));
-
-    mago->initStats();
-    barbaro->initStats();
-
-    mago->printStats();
-    std::cout << std::endl;
-    barbaro->printStats();
-    std::cout << std::endl;
-    */
-
     WaifuJRPG game;
+
+    std::cout << "Contrincantes: " << std::endl;
+    std::cout << std::endl;
 
     game.p1->printStats();
     std::cout << std::endl;
     game.p2->printStats();
     std::cout << std::endl;
 
+    std::cin.get();
+    std::system("cls");
+
+
     while (true) {
         game.next();
 
         std::cout << "Turno: " << game.getTurno() << std::endl;
+        std::cout << std::endl;
 
-        std::cout << game.evento()->getAgresor()->getNombre()
-                  << " utiliza '" << game.evento()->getAtaque()
-                  << "' contra " << game.evento()->getDefensor()->getNombre() << "...";
+        game.p1->printStats();
+        std::cout << std::endl;
+        game.p2->printStats();
+        std::cout << std::endl;
+
+        std::cout << game.evento()->getPersonaje()->getNombre()
+                  << " utiliza '" << game.evento()->getAtaque() << "' contra "
+                  << game.evento()->getPersonaje()->getAdversario()->getNombre() << "...";
 
         if (game.evento()->miss()) {
             std::cout << " pero ha fallado." << std::endl;
@@ -44,20 +43,26 @@ int main() {
             if (game.evento()->critico())
                 std::cout << "Es critico!" << std::endl;
 
-            std::cout << game.evento()->getDefensor()->getNombre() << " recibe "
-                      << game.evento()->getDMG() << " puntos de DMG." << std::endl;
+            std::cout << game.evento()->getPersonaje()->getAdversario()->getNombre()
+                      << " recibe " << game.evento()->getDMG()
+                      << " puntos de DMG." << std::endl;
         }
 
         std::cout << std::endl;
 
-        if (game.evento()->getDefensor()->dead()) {
-            std::cout << game.evento()->getDefensor()->getNombre()
+        if (game.evento()->getPersonaje()->getAdversario()->dead()) {
+            std::cout << game.evento()->getPersonaje()->getAdversario()->getNombre()
                       << " ha muerto!" << std::endl;
             break;
+
+        } else {
+            // system() se considera "sucio" e inseguro, pero...
+            std::cin.get();
+            std::system("cls");
         }
     }
 
-    std::cout << game.evento()->getAgresor()->getNombre()
+    std::cout << game.evento()->getPersonaje()->getNombre()
               << " es la vencedora!" << std::endl;
     std::cout << std::endl;
 

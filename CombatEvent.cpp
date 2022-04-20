@@ -1,8 +1,9 @@
 #include "CombatEvent.h"
 
 CombatEvent::
-CombatEvent(int turno) {
+CombatEvent(int turno, std::shared_ptr<Personaje> personaje) {
     this->turno = turno;
+    this->personaje = personaje;
 }
 
 bool CombatEvent::
@@ -26,20 +27,8 @@ getAtaque(void) const {
 }
 
 std::shared_ptr<Personaje> CombatEvent::
-getAgresor(void) const {
-    return agresor;
-}
-
-std::shared_ptr<Personaje> CombatEvent::
-getDefensor(void) const {
-    return defensor;
-}
-
-void CombatEvent::
-setAgresorDefensor(std::shared_ptr<Personaje> agresor,
-                   std::shared_ptr<Personaje> defensor) {
-    this->agresor = agresor;
-    this->defensor = defensor;
+getPersonaje(void) const {
+    return personaje;
 }
 
 void CombatEvent::

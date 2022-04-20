@@ -28,8 +28,6 @@ Personaje(const std::string & nombre) {
     mana = maxMana;
     stamina = maxStamina;
 
-    //habilidades.push_back(std::make_shared<Skill>());
-
     clase = "Personaje";
 }
 
@@ -147,6 +145,16 @@ getEVA() const {
 int Personaje::
 getLCK() const {
     return LCK;
+}
+
+std::shared_ptr<Personaje> Personaje::
+getAdversario(void) const {
+    return adversario;
+}
+
+void Personaje::
+setAdversario(std::shared_ptr<Personaje> adversario) {
+    this->adversario = adversario;
 }
 
 
@@ -300,17 +308,17 @@ recarga() {
 }
 
 int Personaje::
-ataque(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento) {
-    return ataqueBasico(defensor, evento);
+ataqueBasico() const {
+    // int DMG = ATK;
+    int DMG {static_cast<int>((double(ATK) * 3) * (double(adversario->DEF) / 200.0))};
+    return DMG;
 }
 
-int Personaje::
-ataqueBasico(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento) {
-    //int DMG {static_cast<int>((double(ATK) * 3) * (double(defensor->DEF) / 200.0))};
+std::shared_ptr<Skill> Personaje::
+ataqueAleatorio(void) const {
+    std::random_device rd;
+    std::default_random_engine defEngine(rd());
+    std::uniform_int_distribution<int> intDistro(0, ataques.size() - 1);
 
-    int DMG = ATK;
-    defensor->HP -= DMG;
-
-    evento->saveDatosAtaque("Ataque Basico", DMG, false, false);
-    return DMG;
+    return ataques.at(intDistro(defEngine));
 }

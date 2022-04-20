@@ -9,6 +9,7 @@
 #include <CombatEvent.h>
 
 
+class Skill;
 class CombatEvent;
 
 class Personaje {
@@ -43,6 +44,9 @@ class Personaje {
     int getEVA(void) const;
     int getLCK(void) const;
 
+    std::shared_ptr<Personaje> getAdversario(void) const;
+    void setAdversario(std::shared_ptr<Personaje> adversario);
+
 
     virtual void initStats(void);
     void printStats(void) const;
@@ -51,8 +55,12 @@ class Personaje {
 
     void recarga(void);
 
-    virtual int ataque(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento);
-    int ataqueBasico(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento);
+    int ataqueBasico(void) const;
+
+    std::shared_ptr<Skill> ataqueAleatorio(void) const;
+
+    virtual void actuar(std::shared_ptr<CombatEvent> evento) = 0;
+
 
  protected:
     std::string nombre;
@@ -78,7 +86,19 @@ class Personaje {
     int EVA;    // Afecta probabilidad de evadir
     int LCK;    // Afecta probabilidad de críticos y RNG
 
-    std::vector<std::shared_ptr<Skill>> habilidades;
+    std::shared_ptr<Personaje> adversario;
+
+    std::vector<std::shared_ptr<Skill>> ataques;
+
+ private:
+    /*
+    std::function<int(std::shared_ptr<Personaje>)>
+    ataqueBasico = [this] (std::shared_ptr<Personaje> defensor) {
+        //int DMG = ATK;
+        int DMG {static_cast<int>((double(ATK) * 3) * (double(defensor->DEF) / 200.0))};
+        return DMG;
+    };
+    */
 };
 
 

@@ -25,6 +25,8 @@ Barbaro(const std::string & nombre) : Personaje(nombre){
     mana = maxMana;
     stamina = maxStamina;
 
+    ataques.push_back(std::make_shared<PhysSkill>("Slash", 200, slash));
+
     clase = "Barbaro";
 }
 
@@ -111,44 +113,64 @@ initStats() {
     stamina = maxStamina;
 }
 
+/*
 int Barbaro::
-ataque(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento) {
-    return slash(defensor, evento);
-}
+slash(std::shared_ptr<Personaje> defensor) {
+    //std::random_device rd;
+    //std::default_random_engine defEngine(rd());
+    //std::uniform_int_distribution<int> intDistro(1, 100);
 
-int Barbaro::
-slash(std::shared_ptr<Personaje> defensor, std::shared_ptr<CombatEvent> evento) {
+    int DMG;
+    int base {200};
+    int coste {200};
+    double coef {double(PDEX) / double(defensor->getPRES())};
+
+    if (stamina < coste)
+        return this->ataqueBasico(defensor);
+        //throw std::string("Stamina insuficiente para realizar 'slash'");
+
+    DMG = (double(base) * coef) + ((double(ATK) * 3) * (double(defensor->getDEF()) / 200.0));
+
+    stamina -= coste;
+    return DMG;
+}
+*/
+
+void Barbaro::
+actuar(std::shared_ptr<CombatEvent> evento) {
     std::random_device rd;
     std::default_random_engine defEngine(rd());
     std::uniform_int_distribution<int> intDistro(1, 100);
 
-    int base {200};
-    int coste {200};
-    double coef {double(PDEX) / double(defensor->getPRES())};
-    int hit_chance {calcularHitChance(ACC, defensor->getEVA())};
+    int hitChance {calcularHitChance(ACC, getAdversario()->getEVA())};
+    std::shared_ptr<Skill> ataque {ataqueAleatorio()};
+
     int DMG {0};
     bool miss {false};
     bool critico {false};
 
+    recarga();
 
-    if (stamina < coste)
-        return this->ataqueBasico(defensor, evento);
-        //throw std::string("Stamina insuficiente para realizar 'slash'");
+    if (stamina >= ataque->getCoste()) {
 
+        if (intDistro(defEngine) > hitChance) {
+            miss = true;
 
-    if (intDistro(defEngine) > hit_chance) {
-        miss = true;
-    } else {
-        DMG = (double(base) * coef) + ((double(ATK) * 3) * (double(defensor->getDEF()) / 200.0));
+        } else {
+            DMG = ataque->perform(getAdversario());
 
-        if (intDistro(defEngine) <= LCK) {
-            DMG *= 2;
-            critico = true;
+            if (intDistro(defEngine) <= LCK) {
+                DMG *= 2;
+                critico = true;
+            }
         }
+        stamina -= ataque->getCoste();
+        evento->saveDatosAtaque(ataque->getNombre(), DMG, miss, critico);
 
-        defensor->setHP(defensor->getHP() - DMG);
+    } else {
+        DMG = ataqueBasico();
+        evento->saveDatosAtaque("Ataque Basico", DMG, miss, critico);
     }
-    evento->saveDatosAtaque("Slash", DMG, miss, critico);
-    stamina -= coste;
-    return DMG;
+
+    getAdversario()->setHP(getAdversario()->getHP() - DMG);
 }

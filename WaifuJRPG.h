@@ -18,6 +18,8 @@ class WaifuJRPG {
     std::shared_ptr<CombatEvent> evento(void) const;
     void next(void);
 
+    void printPareja(void) const;
+
   private:
     int turno {0};
     std::vector<std::shared_ptr<CombatEvent>> eventos;

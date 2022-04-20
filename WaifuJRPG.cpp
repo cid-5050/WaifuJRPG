@@ -4,8 +4,11 @@
 
 WaifuJRPG::
 WaifuJRPG() {
-    p1 = std::make_shared<Mago>(Mago(nombreAleatorio("nombres-a.txt")));
-    p2 = std::make_shared<Barbaro>(Barbaro(nombreAleatorio("nombres-b.txt")));
+    p1 = std::make_shared<Mago>(nombreAleatorio("nombres-a.txt"));
+    p2 = std::make_shared<Barbaro>(nombreAleatorio("nombres-b.txt"));
+
+    p1->setAdversario(p2);
+    p2->setAdversario(p1);
 
     p1->initStats();
     p2->initStats();
@@ -23,23 +26,19 @@ evento(void) const {
 
 void WaifuJRPG::
 next() {
-    std::shared_ptr<Personaje> agresor;
-    std::shared_ptr<Personaje> defensor;
+    std::shared_ptr<Personaje> personaje;
 
-    eventos.push_back(std::make_shared<CombatEvent>(CombatEvent(turno)));
+    if (turno % 2 == 0)
+        personaje = p1;
+    else
+        personaje = p2;
 
-    if (turno % 2 == 0) {
-        agresor = p1;
-        defensor = p2;
-    } else {
-        agresor = p2;
-        defensor = p1;
-    }
+    eventos.push_back(std::make_shared<CombatEvent>(++turno, personaje));
 
-    agresor->recarga();
-    agresor->ataque(defensor, this->evento());
+    personaje->actuar(this->evento());
+}
 
-    this->evento()->setAgresorDefensor(agresor, defensor);
-
-    turno++;
+void WaifuJRPG::
+printPareja(void) const {
+    // CONTINUAR AQUI
 }

@@ -1,8 +1,32 @@
 #include "Skill.h"
 
-Skill::Skill(std::string nombre, int coste) {
+Skill::
+Skill(std::string nombre,
+      int coste,
+      std::shared_ptr<std::function<int(std::shared_ptr<Personaje>)>> func)
+{
     this->nombre = nombre;
     this->coste = coste;
+    this->func = func;
+    tipo = "Skill";
+}
+
+MagicSkill::
+MagicSkill(std::string nombre,
+           int coste,
+           std::shared_ptr<std::function<int(std::shared_ptr<Personaje>)>> func
+           ) : Skill(nombre, coste, func)
+{
+    tipo = "Magico";
+}
+
+PhysSkill::
+PhysSkill(std::string nombre,
+           int coste,
+           std::shared_ptr<std::function<int(std::shared_ptr<Personaje>)>> func
+           ) : Skill(nombre, coste, func)
+{
+    tipo = "Fisico";
 }
 
 std::string Skill::
@@ -15,10 +39,12 @@ getCoste() const {
     return coste;
 }
 
-/*int Skill::
+std::string Skill::
+getTipo(void) const {
+    return tipo;
+}
+
+int Skill::
 perform(std::shared_ptr<Personaje> defensor) {
-    //int DMG {static_cast<int>((double(ATK) * 3) * (double(defensor->DEF) / 200.0))};
-    int DMG = ATK;
-    defensor->HP -= DMG;
-    return DMG;
-}*/
+    return (*func)(defensor);
+}
