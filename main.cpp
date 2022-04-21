@@ -8,6 +8,11 @@ int main() {
 
     WaifuJRPG game;
 
+    game.titleScreen();
+    std::cout << ">> ";
+    std::cin.get();
+    std::system("cls");
+
     game.setPrinter(10, 20, 15);
 
     std::cout << game.margen() << "Contrincantes:" << std::endl;
