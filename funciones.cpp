@@ -36,16 +36,29 @@ std::string nombreAleatorio(const std::string & filepath) {
     while (std::getline(file, linea))
         total++;
 
-    std::uniform_int_distribution<int> intDistro(0, total);
-
     file.clear();
     file.seekg(0);
+
+    std::uniform_int_distribution<int> intDistro(0, total);
 
     for (int i {0}; i < intDistro(defEngine); i++) {
         std::getline(file, linea);
     }
 
     return linea;
+}
+
+int numLineas(std::stringstream & stream) {
+    std::string linea;
+    int total {0};
+
+    while (std::getline(stream, linea))
+        total++;
+
+    stream.clear();
+    stream.seekg(0);
+
+    return total;
 }
 
 template<typename T> T personajeAleatorio() {

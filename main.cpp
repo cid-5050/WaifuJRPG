@@ -7,10 +7,11 @@
 int main() {
 
     WaifuJRPG game;
+    std::string comando;
 
     game.titleScreen();
     std::cout << ">> ";
-    std::cin.get();
+    getline(std::cin, comando);
     std::system("cls");
 
     game.setPrinter(10, 15, 15);
@@ -20,44 +21,92 @@ int main() {
 
 
     do {
-        // system() se considera "sucio" e inseguro, pero...
-        std::cin.get();
-        std::system("cls");
+        getline(std::cin, comando);
 
-        game.next();
+        std::system("cls");     // system() se considera "dirty" e inseguro
 
-        game.printer() << std::endl;
-        game.margen();
-        game.printer() << "TURNO " << game.getTurno() << std::endl;
-        game.printer() << std::endl;
 
-        game.miniStats1v1();
-        game.printer() << std::endl;
-        game.printer() << std::endl;
+        switch (game.command(comando)) {
+        case 1:
+            game.next();
 
-        game.margen();
-        game.printer() << game.evento()->getPersonaje()->getNombre()
-                       << " utiliza '" << game.evento()->getAtaque() << "' contra "
-                       << game.evento()->getPersonaje()->getAdversario()->getNombre() << "...";
-
-        if (game.evento()->miss()) {
-            game.printer() << " pero ha fallado." << std::endl;
-        } else {
             game.printer() << std::endl;
-            if (game.evento()->critico()) {
-                game.margen();
-                game.printer() << "Es critico!" << std::endl;
-            }
+            game.margen();
+            game.printer() << "TURNO " << game.getTurno() << std::endl;
+            game.printer() << std::endl;
+
+            game.miniStats1v1();
+            game.printer() << std::endl;
+            game.printer() << std::endl;
 
             game.margen();
-            game.printer() << game.evento()->getPersonaje()->getAdversario()->getNombre()
-                           << " recibe " << game.evento()->getDMG()
-                           << " puntos de DMG." << std::endl;
+            game.printer() << game.evento()->getPersonaje()->getNombre()
+                           << " utiliza '" << game.evento()->getAtaque() << "' contra "
+                           << game.evento()->getPersonaje()->getAdversario()->getNombre() << "...";
+
+            if (game.evento()->miss()) {
+                game.printer() << " pero ha fallado." << std::endl;
+            } else {
+                game.printer() << std::endl;
+                if (game.evento()->critico()) {
+                    game.margen();
+                    game.printer() << "Es critico!" << std::endl;
+                }
+
+                game.margen();
+                game.printer() << game.evento()->getPersonaje()->getAdversario()->getNombre()
+                               << " recibe " << game.evento()->getDMG()
+                               << " puntos de DMG." << std::endl;
+            }
+
+            game.printer() << std::endl;
+            game.print();
+
+            break;
+
+        case 2:
+            game.printer() << std::endl;
+            //game.statsGlobales() << std::endl;
+            game.print();
+
+            break;
+        case 3:
+            game.printer() << std::endl;
+            game.statsPersonaje(game.getPersonaje(comando));
+            game.print();
+
+            break;
+
+        case 4:
+            game.printer() << std::endl << std::endl << std::endl << std::endl;
+            game.printer() << "Adios!" << std::endl;
+            game.print();
+
+            break;
+
+        default:
+            game.printer() << std::endl;
+            game.printer() << std::endl;
+            game.printer() << std::endl;
+            game.margen();
+            game.printer() << "Comandos disponsibles:" << std::endl;
+            game.printer() << std::endl;
+            game.margen();
+            game.printer() << std::left << std::setw(20) << "next";
+            game.printer() << "Avanza al siguiente turno" << std::endl;
+            game.margen();
+            game.printer() << std::left << std::setw(20) << "[nombre]";
+            game.printer() << "Muestra los stats del personaje" << std::endl;
+            game.margen();
+            game.printer() << std::left << std::setw(20) << "help";
+            game.printer() << "Muestra los comandos disponibles" << std::endl;
+            game.margen();
+            game.printer() << std::left << std::setw(20) << "exit";
+            game.printer() << "Sale del juego" << std::endl;
+
+            game.print();
+            break;
         }
-
-        game.printer() << std::endl;
-
-        game.print();
 
     } while (not game.evento()->getPersonaje()->getAdversario()->dead());
 

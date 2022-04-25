@@ -28,6 +28,12 @@ class WaifuJRPG {
     void titleScreen(void) const;
     void updateScreen(std::stringstream & o) const;
     void print(void);
+    int command(const std::string & comando);
+
+    bool existePersonaje(const std::string & nombre) const;
+    std::shared_ptr<Personaje> getPersonaje(const std::string & nombre) const;
+    void statsPersonaje(std::shared_ptr<Personaje>);
+    void statsGlobales(void);
 
   private:
     int turno;

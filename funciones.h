@@ -18,6 +18,8 @@ int getINI(const std::string & section, const std::string & key);
 
 std::string nombreAleatorio(const std::string & filepath);
 
+int numLineas(std::stringstream & stream);
+
 template<typename T> T personajeAleatorio();
 
 int calcularHitChance(double ACC, double EVA);
