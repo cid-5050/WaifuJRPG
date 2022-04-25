@@ -22,16 +22,5 @@ template<typename T> T personajeAleatorio();
 
 int calcularHitChance(double ACC, double EVA);
 
-struct PrinterPareja {
-    int wColumna {0};
-    int wMargen {0};
-    int wEspacio {0};
-
-    void fila(const std::string & nombre,
-              const std::string & contenidoA,
-              const std::string & contenidoB) const;
-    void linea(void) const;
-    std::string margen(void) const;
-};
 
 #endif // FUNCIONES_H

@@ -8,6 +8,7 @@ SOURCES += \
         CombatEvent.cpp \
         Mago.cpp \
         Personaje.cpp \
+        Printer.cpp \
         Skill.cpp \
         WaifuJRPG.cpp \
         funciones.cpp \
@@ -18,6 +19,7 @@ HEADERS += \
     CombatEvent.h \
     Mago.h \
     Personaje.h \
+    Printer.h \
     Skill.h \
     WaifuJRPG.h \
     funciones.h \

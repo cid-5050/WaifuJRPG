@@ -3,8 +3,8 @@
 
 #include <Mago.h>
 #include <Barbaro.h>
+#include <Printer.h>
 #include <memory>
-//#include <sstream>
 
 
 class WaifuJRPG {
@@ -18,22 +18,25 @@ class WaifuJRPG {
             std::shared_ptr<std::vector<std::shared_ptr<Personaje>>>) const;
     void next(void);
 
+    std::stringstream & printer(void);
     void setPrinter(int wCol, int wMrg, int wSpc);
 
-    void printStats(void) const;
-    std::string margen(void) const;
+    //void printStats(void) const;
+    void fullStats1v1(void);
+    void miniStats1v1(void);
+    void margen(void);
     void titleScreen(void) const;
+    void updateScreen(std::stringstream & o) const;
+    void print(void);
 
   private:
-    int turno {0};
+    int turno;
     std::shared_ptr<std::vector<std::shared_ptr<Personaje>>> partyA
     {std::make_shared<std::vector<std::shared_ptr<Personaje>>>()};
     std::shared_ptr<std::vector<std::shared_ptr<Personaje>>> partyB
     {std::make_shared<std::vector<std::shared_ptr<Personaje>>>()};
     std::vector<std::shared_ptr<CombatEvent>> eventos;
-    PrinterPareja printer;
-
-
+    Printer printer_;
 };
 
 #endif // WAIFUJRPG_H

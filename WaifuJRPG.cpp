@@ -15,6 +15,8 @@ WaifuJRPG() {
 
     partyA->push_back(p1);
     partyB->push_back(p2);
+
+    turno = 0;
 }
 
 int WaifuJRPG::
@@ -52,14 +54,16 @@ miembroAleatorio(std::shared_ptr<std::vector<std::shared_ptr<Personaje>>> party)
     return party->at(intDistro(defEngine));
 }
 
-void WaifuJRPG::
-setPrinter(int wCol, int wMrg, int wSpc) {
-    printer.wColumna = wCol;
-    printer.wMargen = wMrg;
-    printer.wEspacio = wSpc;
+std::stringstream & WaifuJRPG::printer(void) {
+    return printer_.getStream();
 }
 
 void WaifuJRPG::
+setPrinter(int wCol, int wMrg, int wSpc) {
+    printer_ = Printer(wCol, wMrg, wSpc);
+}
+
+/*void WaifuJRPG::
 printStats(void) const {
     printer.linea();
     printer.fila("Nombre", partyA->at(0)->getNombre(), partyB->at(0)->getNombre());
@@ -82,11 +86,49 @@ printStats(void) const {
     printer.linea();
     printer.fila("Clase", partyA->at(0)->getClase(), partyB->at(0)->getClase());
     printer.linea();
+}*/
+
+void WaifuJRPG::
+fullStats1v1(void) {
+    printer_.linea();
+    printer_.fila("Nombre", partyA->at(0)->getNombre(), partyB->at(0)->getNombre());
+    printer_.linea();
+    printer_.fila("HP", std::to_string(partyA->at(0)->getHP()), std::to_string(partyB->at(0)->getHP()));
+    printer_.fila("Mana", std::to_string(partyA->at(0)->getMana()), std::to_string(partyB->at(0)->getMana()));
+    printer_.fila("Stamina", std::to_string(partyA->at(0)->getStamina()), std::to_string(partyB->at(0)->getStamina()));
+    printer_.linea();
+    printer_.fila("VIT", std::to_string(partyA->at(0)->getVIT()), std::to_string(partyB->at(0)->getVIT()));
+    printer_.fila("END", std::to_string(partyA->at(0)->getEND()), std::to_string(partyB->at(0)->getEND()));
+    printer_.fila("ATK", std::to_string(partyA->at(0)->getATK()), std::to_string(partyB->at(0)->getATK()));
+    printer_.fila("PDEX", std::to_string(partyA->at(0)->getPDEX()), std::to_string(partyB->at(0)->getPDEX()));
+    printer_.fila("MDEX", std::to_string(partyA->at(0)->getMDEX()), std::to_string(partyB->at(0)->getMDEX()));
+    printer_.fila("DEF", std::to_string(partyA->at(0)->getDEF()), std::to_string(partyB->at(0)->getDEF()));
+    printer_.fila("PRES", std::to_string(partyA->at(0)->getPRES()), std::to_string(partyB->at(0)->getPRES()));
+    printer_.fila("MRES", std::to_string(partyA->at(0)->getMRES()), std::to_string(partyB->at(0)->getMRES()));
+    printer_.fila("ACC", std::to_string(partyA->at(0)->getACC()), std::to_string(partyB->at(0)->getACC()));
+    printer_.fila("EVA", std::to_string(partyA->at(0)->getEVA()), std::to_string(partyB->at(0)->getEVA()));
+    printer_.fila("LCK", std::to_string(partyA->at(0)->getLCK()), std::to_string(partyB->at(0)->getLCK()));
+    printer_.linea();
+    printer_.fila("Clase", partyA->at(0)->getClase(), partyB->at(0)->getClase());
+    printer_.linea();
 }
 
-std::string WaifuJRPG::
-margen() const {
-    return printer.margen();
+void WaifuJRPG::
+miniStats1v1(void) {
+    printer_.linea();
+    printer_.fila("Nombre", partyA->at(0)->getNombre(), partyB->at(0)->getNombre());
+    printer_.linea();
+    printer_.fila("HP", std::to_string(partyA->at(0)->getHP()), std::to_string(partyB->at(0)->getHP()));
+    printer_.fila("Mana", std::to_string(partyA->at(0)->getMana()), std::to_string(partyB->at(0)->getMana()));
+    printer_.fila("Stamina", std::to_string(partyA->at(0)->getStamina()), std::to_string(partyB->at(0)->getStamina()));
+    printer_.linea();
+    printer_.fila("Clase", partyA->at(0)->getClase(), partyB->at(0)->getClase());
+    printer_.linea();
+}
+
+void WaifuJRPG::
+margen() {
+    printer_.margen();
 }
 
 void WaifuJRPG::
@@ -96,4 +138,49 @@ titleScreen() const {
 
     while (std::getline(file, linea))
         std::cout << linea << std::endl;
+}
+
+
+void WaifuJRPG::
+updateScreen(std::stringstream & o) const {
+    std::ifstream file("titleScreen.txt");
+    std::string lineaTitle;
+    std::string lineaMain;
+    int numLinea {1};
+
+    while (std::getline(file, lineaTitle)) {
+        if ((numLinea <= 3) or (numLinea >= 25)) {
+            std::cout << lineaTitle << std::endl;
+        } else {
+            std::getline(o, lineaMain);
+            std::cout << lineaTitle.substr(0, 9);
+            std::cout << std::left << std::setw(102) << lineaMain;
+            std::cout << lineaTitle.substr(111, std::string::npos) << std::endl;
+        }
+        numLinea++;
+    }
+    std::cout << ">> ";
+}
+
+void WaifuJRPG::
+print(void) {
+    std::ifstream file("titleScreen.txt");
+    std::string lineaTitle;
+    std::string lineaMain;
+    int numLinea {1};
+
+    while (std::getline(file, lineaTitle)) {
+        if ((numLinea <= 3) or (numLinea >= 25)) {
+            std::cout << lineaTitle << std::endl;
+        } else {
+            std::getline(this->printer(), lineaMain);
+            std::cout << lineaTitle.substr(0, 9);
+            std::cout << std::left << std::setw(102) << lineaMain;
+            std::cout << lineaTitle.substr(111, std::string::npos) << std::endl;
+        }
+        numLinea++;
+    }
+    std::cout << ">> ";
+
+    printer_.clearStream();
 }
