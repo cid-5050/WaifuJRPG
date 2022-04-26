@@ -38,7 +38,6 @@ int main() {
             game.printer() << std::endl;
             game.printer() << std::endl;
 
-            game.margen();
             game.printer() << game.evento()->getPersonaje()->getNombre()
                            << " utiliza '" << game.evento()->getAtaque() << "' contra "
                            << game.evento()->getPersonaje()->getAdversario()->getNombre() << "...";
@@ -48,11 +47,9 @@ int main() {
             } else {
                 game.printer() << std::endl;
                 if (game.evento()->critico()) {
-                    game.margen();
                     game.printer() << "Es critico!" << std::endl;
                 }
 
-                game.margen();
                 game.printer() << game.evento()->getPersonaje()->getAdversario()->getNombre()
                                << " recibe " << game.evento()->getDMG()
                                << " puntos de DMG." << std::endl;
@@ -75,7 +72,6 @@ int main() {
 
         case 4:
             game.printer() << std::endl << std::endl << std::endl << std::endl;
-            game.margen();
             game.printerColor("purple");
             game.printer() << "Adios!" << std::endl;
 
@@ -85,19 +81,14 @@ int main() {
             game.printer() << std::endl;
             game.printer() << std::endl;
             game.printer() << std::endl;
-            game.margen();
             game.printer() << "Comandos disponsibles:" << std::endl;
             game.printer() << std::endl;
-            game.margen();
             game.printer() << std::left << std::setw(20) << "next";
             game.printer() << "Avanza al siguiente turno" << std::endl;
-            game.margen();
             game.printer() << std::left << std::setw(20) << "[nombre]";
             game.printer() << "Muestra los stats del personaje" << std::endl;
-            game.margen();
             game.printer() << std::left << std::setw(20) << "help";
             game.printer() << "Muestra los comandos disponibles" << std::endl;
-            game.margen();
             game.printer() << std::left << std::setw(20) << "exit";
             game.printer() << "Sale del juego" << std::endl;
 
@@ -117,12 +108,10 @@ int main() {
     game.printer() << std::endl;
     game.printer() << std::endl;
 
-    game.margen();
     game.printer() << game.evento()->getPersonaje()->getAdversario()->getNombre()
                    << " ha muerto!" << std::endl;
     game.printer() << std::endl;
 
-    game.margen();
     game.printer() << game.evento()->getPersonaje()->getNombre()
                    << " es la vencedora!" << std::endl;
     game.printer() << std::endl;

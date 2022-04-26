@@ -14,7 +14,7 @@ class Printer {
 
     std::stringstream & getStream(void);
     void clearStream(void);
-    void print(void) const;
+    void print(void);
     void getLinea(std::string & linea);
     void injectColor(const std::string & color);
     void setColor(int color);
@@ -30,7 +30,7 @@ class Printer {
     void linea1v1(void);
 
 
-    void margen(void);
+    std::string margen(void) const;
 
     void sendLeft(void);
     void sendRight(void);

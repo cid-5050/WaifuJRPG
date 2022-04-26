@@ -25,7 +25,6 @@ class WaifuJRPG {
     //void printStats(void) const;
     void fullStats1v1(void);
     void miniStats1v1(void);
-    void margen(void);
     void titleScreen(void) const;
     void updateScreen(std::stringstream & o) const;
     void print(void);

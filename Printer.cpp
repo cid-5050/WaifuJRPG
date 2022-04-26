@@ -44,20 +44,13 @@ clearStream() {
 }
 
 void Printer::
-print() const {
-    std::cout << stream.str();
-
-    /*std::string linea;
+print() {
+    std::string linea;
 
     while (std::getline(stream, linea)) {
-        if (color != colores.at("black")) {
-            SetConsoleTextAttribute(winHandle, color);
-            std::cout << linea << std::endl;
-            SetConsoleTextAttribute(winHandle, colores.at("black"));
-        } else {
-            std::cout << linea << std::endl;
-        }
-    }*/
+        linea.insert(0, margen());
+        std::cout << linea << std::endl;
+    }
 }
 
 void Printer::
@@ -73,6 +66,8 @@ getLinea(std::string & linea) {
         stringStrip(linea, "#" + strColor + "#");
         setColor(std::stoi(strColor));
     }
+
+    linea.insert(0, margen());
 }
 
 void Printer::
@@ -97,7 +92,6 @@ filaSingle(const std::string & nombre,
            const std::string & contenido) {
 
     stream << std::left
-           << std::setw(10) << ""
            << "||  "
            << std::setw(wColumna) << nombre
            << "||  "
@@ -109,7 +103,6 @@ filaSingle(const std::string & nombre,
 void Printer::
 lineaSingle() {
     stream << std::left
-           << std::setw(10) << ""
            << std::setfill('-')
            << std::setw((wColumna * 2) + 10) << ""
            << std::setfill(' ')
@@ -122,7 +115,6 @@ fila1v1(const std::string & nombre,
      const std::string & contenidoB) {
 
     stream << std::left
-           << std::setw(wMargen) << ""
            << "||  "
            << std::setw(wColumna) << nombre
            << "||  "
@@ -140,7 +132,6 @@ fila1v1(const std::string & nombre,
 void Printer::
 linea1v1() {
     stream << std::left
-           << std::setw(wMargen) << ""
            << std::setfill('-')
            << std::setw((wColumna * 2) + 10) << ""
            << std::setfill(' ')
@@ -151,10 +142,9 @@ linea1v1() {
            << std::endl;
 }
 
-void Printer::
-margen() {
-    stream << std::left
-           << std::setw(wMargen) << "";
+std::string Printer::
+margen() const {
+    return (std::stringstream() << std::left << std::setw(wMargen) << "").str();
 }
 
 void Printer::
@@ -175,14 +165,14 @@ mergePair(void) {
     std::string linea;
 
     while (std::getline(streamPair.first, linea)) {
-        stream << std::left << std::setw(50) << linea;
+        stream << std::left << std::setw(45) << linea;
         std::getline(streamPair.second, linea);
         stream << linea;
         stream << std::endl;
     }
 
     while (std::getline(streamPair.second, linea)) {
-        stream << std::left << std::setw(50) << "";
+        stream << std::left << std::setw(45) << "";
         stream << linea;
         stream << std::endl;
     }

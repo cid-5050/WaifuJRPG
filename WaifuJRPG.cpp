@@ -131,10 +131,6 @@ miniStats1v1(void) {
     printer_.linea1v1();
 }
 
-void WaifuJRPG::
-margen() {
-    printer_.margen();
-}
 
 void WaifuJRPG::
 titleScreen() const {
@@ -194,7 +190,7 @@ print(void) {
             }
 
             std::cout << lineaTitle.substr(110, std::string::npos) << std::endl;
-
+            lineaMain.clear();
         }
         numLinea++;
     }
@@ -234,14 +230,10 @@ statsPersonaje(std::shared_ptr<Personaje> personaje) {
 
     printer() << std::endl;
     printer() << std::endl;
-    margen();
     printer() << "Stats de " << personaje->getNombre() << ":" << std::endl;
     printer() << std::endl;
-    margen();
     printer() << personaje->getNombre() << "ha inflingido 100 puntos" << std::endl;
-    margen();
     printer() << "de DMG y ha recuperado 100 puntos" << std::endl;
-    margen();
     printer() << "de HP." << std::endl;
 
     printer_.sendLeft();
@@ -296,7 +288,6 @@ command(const std::string & comando) {
     if (comando != "help") {
         printer() << std::endl;
         printer() << std::endl;
-        margen();
         printer() << "Comando '" << comando << "' desconocido" << std::endl;
     }
 
