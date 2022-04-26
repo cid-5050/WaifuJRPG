@@ -175,8 +175,16 @@ print(void) {
         } else {
             std::getline(this->printer(), lineaMain);
             std::cout << lineaTitle.substr(0, 9);
-            std::cout << std::left << std::setw(102) << lineaMain;
-            std::cout << lineaTitle.substr(111, std::string::npos) << std::endl;
+
+            if (numLinea != 23) {
+                std::cout << std::left << std::setw(101) << lineaMain;
+            } else {
+                std::cout << std::left << std::setw(94) << lineaMain
+                          << std::left << std::setw(7)
+                          << (std::stringstream() << "[" << turno << "]").str();
+            }
+            std::cout << lineaTitle.substr(110, std::string::npos) << std::endl;
+
         }
         numLinea++;
     }
@@ -276,6 +284,7 @@ command(const std::string & comando) {
         return 4;
 
     if (comando != "help") {
+        printer() << std::endl;
         printer() << std::endl;
         margen();
         printer() << "Comando '" << comando << "' desconocido" << std::endl;

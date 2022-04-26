@@ -31,8 +31,6 @@ int main() {
             game.next();
 
             game.printer() << std::endl;
-            game.margen();
-            game.printer() << "TURNO " << game.getTurno() << std::endl;
             game.printer() << std::endl;
 
             game.miniStats1v1();
@@ -60,27 +58,24 @@ int main() {
             }
 
             game.printer() << std::endl;
-            game.print();
 
             break;
 
         case 2:
             game.printer() << std::endl;
             //game.statsGlobales() << std::endl;
-            game.print();
 
             break;
         case 3:
             game.printer() << std::endl;
             game.statsPersonaje(game.getPersonaje(comando));
-            game.print();
 
             break;
 
         case 4:
             game.printer() << std::endl << std::endl << std::endl << std::endl;
+            game.margen();
             game.printer() << "Adios!" << std::endl;
-            game.print();
 
             break;
 
@@ -104,17 +99,16 @@ int main() {
             game.printer() << std::left << std::setw(20) << "exit";
             game.printer() << "Sale del juego" << std::endl;
 
-            game.print();
             break;
         }
+
+        game.print();
 
     } while (not game.evento()->getPersonaje()->getAdversario()->dead());
 
     std::system("cls");
 
     game.printer() << std::endl;
-    game.margen();
-    game.printer() << "TURNO " << game.getTurno() << std::endl;
     game.printer() << std::endl;
 
     game.miniStats1v1();
