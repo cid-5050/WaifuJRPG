@@ -20,6 +20,7 @@ class WaifuJRPG {
 
     std::stringstream & printer(void);
     void setPrinter(int wCol, int wMrg, int wSpc);
+    void printerColor(const std::string & color);
 
     //void printStats(void) const;
     void fullStats1v1(void);

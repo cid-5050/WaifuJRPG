@@ -24,5 +24,9 @@ template<typename T> T personajeAleatorio();
 
 int calcularHitChance(double ACC, double EVA);
 
+std::vector<std::string> stringSplit(const std::string & cadena,
+                                     const std::string & separador);
+
+void stringStrip(std::string & cadena, const std::string & subcadena);
 
 #endif // FUNCIONES_H

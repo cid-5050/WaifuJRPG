@@ -5,6 +5,7 @@
 
 
 int main() {
+    system("Color E0");
 
     WaifuJRPG game;
     std::string comando;
@@ -23,7 +24,7 @@ int main() {
     do {
         getline(std::cin, comando);
 
-        std::system("cls");     // system() se considera "dirty" e inseguro
+        std::system("cls");
 
 
         switch (game.command(comando)) {
@@ -75,6 +76,7 @@ int main() {
         case 4:
             game.printer() << std::endl << std::endl << std::endl << std::endl;
             game.margen();
+            game.printerColor("purple");
             game.printer() << "Adios!" << std::endl;
 
             break;

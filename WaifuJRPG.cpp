@@ -63,6 +63,11 @@ setPrinter(int wCol, int wMrg, int wSpc) {
     printer_ = Printer(wCol, wMrg, wSpc);
 }
 
+void WaifuJRPG::
+printerColor(const std::string & color) {
+    printer_.injectColor(color);
+}
+
 /*void WaifuJRPG::
 printStats(void) const {
     printer.linea1v1();
@@ -173,16 +178,21 @@ print(void) {
         if ((numLinea <= 3) or (numLinea >= 25)) {
             std::cout << lineaTitle << std::endl;
         } else {
-            std::getline(this->printer(), lineaMain);
+            //std::getline(this->printer(), lineaMain);
             std::cout << lineaTitle.substr(0, 9);
+
+            printer_.getLinea(lineaMain);
 
             if (numLinea != 23) {
                 std::cout << std::left << std::setw(101) << lineaMain;
+                printer_.resetColor();
             } else {
-                std::cout << std::left << std::setw(94) << lineaMain
-                          << std::left << std::setw(7)
+                std::cout << std::left << std::setw(94) << lineaMain;
+                printer_.resetColor();
+                std::cout << std::left << std::setw(7)
                           << (std::stringstream() << "[" << turno << "]").str();
             }
+
             std::cout << lineaTitle.substr(110, std::string::npos) << std::endl;
 
         }

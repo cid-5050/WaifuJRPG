@@ -4,6 +4,8 @@
 #include <iostream>
 #include <iomanip>
 #include <funciones.h>
+#include <windows.h>
+
 
 class Printer {
  public:
@@ -13,6 +15,10 @@ class Printer {
     std::stringstream & getStream(void);
     void clearStream(void);
     void print(void) const;
+    void getLinea(std::string & linea);
+    void injectColor(const std::string & color);
+    void setColor(int color);
+    void resetColor(void);
 
     void filaSingle(const std::string & nombre,
                     const std::string & contenido);
@@ -37,6 +43,10 @@ class Printer {
     int wColumna;
     int wMargen;
     int wEspacio;
+
+    int color;
+    std::unordered_map<std::string, int> colores;
+    HANDLE  winHandle {GetStdHandle(STD_OUTPUT_HANDLE)};
 };
 
 

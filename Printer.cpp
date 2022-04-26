@@ -5,10 +5,29 @@ Printer() {
     wColumna = 0;
     wMargen = 0;
     wEspacio = 0;
+
+    colores.insert({"black", 224});
+    colores.insert({"blue", 225});
+    colores.insert({"green", 226});
+    colores.insert({"aqua", 227});
+    colores.insert({"red", 228});
+    colores.insert({"purple", 229});
+    colores.insert({"yellow", 230});
+    colores.insert({"lightgray", 231});
+    colores.insert({"gray", 232});
+    colores.insert({"lightblue", 233});
+    colores.insert({"lightgreen", 234});
+    colores.insert({"lightaqua", 235});
+    colores.insert({"lightred", 236});
+    colores.insert({"lightpurple", 237});
+    colores.insert({"lightyellow", 238});
+    colores.insert({"white", 239});
+
+    color = colores.at("black");
 }
 
 Printer::
-Printer(int wCol, int wMrg, int wSpc) {
+Printer(int wCol, int wMrg, int wSpc) : Printer() {
     wColumna = wCol;
     wMargen = wMrg;
     wEspacio = wSpc;
@@ -27,6 +46,50 @@ clearStream() {
 void Printer::
 print() const {
     std::cout << stream.str();
+
+    /*std::string linea;
+
+    while (std::getline(stream, linea)) {
+        if (color != colores.at("black")) {
+            SetConsoleTextAttribute(winHandle, color);
+            std::cout << linea << std::endl;
+            SetConsoleTextAttribute(winHandle, colores.at("black"));
+        } else {
+            std::cout << linea << std::endl;
+        }
+    }*/
+}
+
+void Printer::
+getLinea(std::string & linea) {
+    std::string strColor;
+
+    resetColor();
+
+    std::getline(stream, linea);
+
+    if (linea.find("#") != std::string::npos) {
+        strColor = stringSplit(linea, "#").at(1);
+        stringStrip(linea, "#" + strColor + "#");
+        setColor(std::stoi(strColor));
+    }
+}
+
+void Printer::
+injectColor(const std::string & color) {
+    stream << "#" << colores.at(color) << "#";
+}
+
+void Printer::
+setColor(int color) {
+    SetConsoleTextAttribute(winHandle, color);
+    this->color = color;
+}
+
+void Printer::
+resetColor(void) {
+    if (color != colores.at("black"))
+        setColor(colores.at("black"));
 }
 
 void Printer::
