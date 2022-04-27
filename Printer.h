@@ -26,6 +26,7 @@ class Printer {
     void resetColor(void);
     void setMargen(int margen);
     void setColumna(int width);
+    void resetWidths(void);
 
     void filaSingle(const std::string & nombre,
                     const std::string & contenido);
@@ -54,9 +55,9 @@ class Printer {
               std::shared_ptr<std::stringstream>> streamAux;
     std::shared_ptr<std::stringstream> stream;
 
-    int wColumna;
-    int wMargen;
-    int wEspacio;
+    int wColumna, wColumna_;
+    int wMargen, wMargen_;
+    int wEspacio, wEspacio_;
 
     int color;
     std::unordered_map<std::string, int> colores;

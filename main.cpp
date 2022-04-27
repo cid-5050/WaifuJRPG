@@ -5,7 +5,7 @@
 
 
 int main() {
-    system("Color E0");
+    system("Color E4");
 
     WaifuJRPG game;
     std::string comando;
@@ -88,6 +88,8 @@ int main() {
             game.printer() << "Avanza al siguiente turno" << std::endl;
             game.printer() << std::left << std::setw(20) << "[nombre]";
             game.printer() << "Muestra los stats del personaje" << std::endl;
+            game.printer() << std::left << std::setw(20) << "game";
+            game.printer() << "Muestra todos los personajes" << std::endl;
             game.printer() << std::left << std::setw(20) << "help";
             game.printer() << "Muestra los comandos disponibles" << std::endl;
             game.printer() << std::left << std::setw(20) << "exit";

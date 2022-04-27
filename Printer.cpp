@@ -2,9 +2,9 @@
 
 Printer::
 Printer() {
-    wColumna = 0;
-    wMargen = 0;
-    wEspacio = 0;
+    wColumna = wColumna_ = 0;
+    wMargen = wMargen_ = 0;
+    wEspacio = wEspacio_ = 0;
 
     colores.insert({"black", 224});
     colores.insert({"blue", 225});
@@ -34,9 +34,9 @@ Printer() {
 
 Printer::
 Printer(int wCol, int wMrg, int wSpc) : Printer() {
-    wColumna = wCol;
-    wMargen = wMrg;
-    wEspacio = wSpc;
+    wColumna = wColumna_ = wCol;
+    wMargen = wMargen_ = wMrg;
+    wEspacio = wEspacio_ = wSpc;
 }
 
 std::stringstream & Printer::
@@ -116,6 +116,13 @@ setMargen(int margen) {
 void Printer::
 setColumna(int width) {
     wColumna = width;
+}
+
+void Printer::
+resetWidths(void) {
+    wColumna = wColumna_;
+    wMargen = wMargen_;
+    wEspacio = wEspacio_;
 }
 
 void Printer::

@@ -360,6 +360,7 @@ statsGlobales(void) {
     printer_.lineaGlobalA();
 
     printer_.mergeAux();
+    printer_.resetWidths();
 }
 
 int WaifuJRPG::
