@@ -4,6 +4,8 @@
 
 WaifuJRPG::
 WaifuJRPG() {
+    readNombres("nombres.txt");
+
     equipoA = formarEquipoAleatorio(10);
     equipoB = formarEquipoAleatorio(10);
 
@@ -20,11 +22,38 @@ WaifuJRPG() {
     }
 
     turno = 0;
+
+    nombres.clear();
 }
 
 int WaifuJRPG::
 getTurno(void) const {
     return turno;
+}
+
+void WaifuJRPG::
+readNombres(const std::string & filepath) {
+    std::ifstream file(filepath);
+    std::string linea;
+
+    while (std::getline(file, linea))
+        nombres.push_back(linea);
+}
+
+std::string WaifuJRPG::
+nombreAleatorio(void) {
+    int index;
+    std::string nombre;
+
+    std::random_device rd;
+    std::default_random_engine defEngine(rd());
+    std::uniform_int_distribution<int> intDistro(0, nombres.size() - 1);
+
+    index = intDistro(defEngine);
+    nombre = nombres.at(index);
+
+    nombres.erase(nombres.begin() + index);
+    return nombre;
 }
 
 std::shared_ptr<CombatEvent> WaifuJRPG::
@@ -33,7 +62,7 @@ evento(void) const {
 }
 
 std::shared_ptr<std::vector<std::shared_ptr<Personaje>>> WaifuJRPG::
-formarEquipoAleatorio(int numIntegrantes) const {
+formarEquipoAleatorio(int numIntegrantes) {
 
     std::shared_ptr<std::vector<std::shared_ptr<Personaje>>>
     equipo {std::make_shared<std::vector<std::shared_ptr<Personaje>>>()};
@@ -45,10 +74,10 @@ formarEquipoAleatorio(int numIntegrantes) const {
     for (int i = 0; i < numIntegrantes; i++) {
         switch (intDistro(defEngine)) {
         case 0:
-            equipo->push_back(std::make_shared<Mago>(nombreAleatorio("nombres-a.txt")));
+            equipo->push_back(std::make_shared<Mago>(nombreAleatorio()));
             break;
         case 1:
-            equipo->push_back(std::make_shared<Barbaro>(nombreAleatorio("nombres-b.txt")));
+            equipo->push_back(std::make_shared<Barbaro>(nombreAleatorio()));
             break;
         }
     }

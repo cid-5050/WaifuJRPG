@@ -5,7 +5,7 @@
 
 
 int main() {
-    system("Color E4");
+    system("Color E0");
 
     WaifuJRPG game;
     std::string comando;

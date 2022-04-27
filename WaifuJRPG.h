@@ -13,10 +13,13 @@ class WaifuJRPG {
 
     int getTurno(void) const;
 
+    void readNombres(const std::string & filepath);
+    std::string nombreAleatorio(void);
+
     std::shared_ptr<CombatEvent> evento(void) const;
 
     std::shared_ptr<std::vector<std::shared_ptr<Personaje>>>
-    formarEquipoAleatorio(int numIntegrantes) const;
+    formarEquipoAleatorio(int numIntegrantes);
 
     std::shared_ptr<Personaje> miembroAleatorio(
             std::shared_ptr<std::vector<std::shared_ptr<Personaje>>>) const;
@@ -41,6 +44,7 @@ class WaifuJRPG {
 
   private:
     int turno;
+    std::vector<std::string> nombres;
     std::shared_ptr<std::vector<std::shared_ptr<Personaje>>> equipoA;
     std::shared_ptr<std::vector<std::shared_ptr<Personaje>>> equipoB;
     std::vector<std::shared_ptr<CombatEvent>> eventos;

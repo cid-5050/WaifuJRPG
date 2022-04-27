@@ -25,29 +25,6 @@ int getINI(const std::string & section, const std::string & key) {
     return std::stoi(ini[section][key]);
 }
 
-std::string nombreAleatorio(const std::string & filepath) {
-    std::ifstream file(filepath);
-    std::string linea;
-    int total {0};
-
-    std::random_device rd;
-    std::default_random_engine defEngine(rd());
-
-    while (std::getline(file, linea))
-        total++;
-
-    file.clear();
-    file.seekg(0);
-
-    std::uniform_int_distribution<int> intDistro(0, total);
-
-    for (int i {0}; i < intDistro(defEngine); i++) {
-        std::getline(file, linea);
-    }
-
-    return linea;
-}
-
 int numLineas(std::stringstream & stream) {
     std::string linea;
     int total {0};
@@ -59,19 +36,6 @@ int numLineas(std::stringstream & stream) {
     stream.seekg(0);
 
     return total;
-}
-
-template<typename T> T personajeAleatorio() {
-    std::random_device rd;
-    std::default_random_engine defEngine(rd());
-    std::uniform_int_distribution<int> intDistro(0, 1);
-
-    switch (intDistro(defEngine)) {
-        case 0:
-            return Mago(nombreAleatorio("nombres-a.txt"));
-        case 1:
-            return Barbaro(nombreAleatorio("nombres-a.txt"));
-    }
 }
 
 int calcularHitChance(double ACC, double EVA) {
