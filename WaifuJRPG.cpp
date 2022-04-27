@@ -200,7 +200,6 @@ print(void) {
         if ((numLinea <= 3) or (numLinea >= 25)) {
             std::cout << lineaTitle << std::endl;
         } else {
-            //std::getline(this->printer(), lineaMain);
             std::cout << lineaTitle.substr(0, 9);
 
             printer_.getLinea(lineaMain);
@@ -289,7 +288,7 @@ statsPersonaje(std::shared_ptr<Personaje> personaje) {
     printer_.filaSingle("Clase", personaje->getClase());
     printer_.lineaSingle();
 
-    printer_.mergeAux();
+    printer_.mergeAux(55);
 }
 
 void WaifuJRPG::
@@ -359,7 +358,7 @@ statsGlobales(void) {
     }
     printer_.lineaGlobalA();
 
-    printer_.mergeAux();
+    printer_.mergeAux(52);
     printer_.resetWidths();
 }
 

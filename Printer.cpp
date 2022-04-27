@@ -68,10 +68,10 @@ void Printer::
 print() {
     std::string linea;
 
-    while (std::getline(*stream, linea)) {
-        linea.insert(0, margen());
+    insertMargen(*stream);
+
+    while (std::getline(*stream, linea))
         std::cout << linea << std::endl;
-    }
 }
 
 void Printer::
@@ -88,7 +88,7 @@ getLinea(std::string & linea) {
         setColor(std::stoi(strColor));
     }
 
-    linea.insert(0, margen());
+    insertMargen(linea);
 }
 
 void Printer::
@@ -130,9 +130,10 @@ filaSingle(const std::string & nombre,
            const std::string & contenido) {
 
     *stream << std::left
+            << std::setw(wMargen) << ""
             << "||  "
             << std::setw(wColumna) << nombre
-            << "||  "
+            << "|  "
             << std::setw(wColumna) << contenido
             << "||"
             << std::endl;
@@ -141,8 +142,11 @@ filaSingle(const std::string & nombre,
 void Printer::
 lineaSingle(void) {
     *stream << std::left
+            << std::setw(wMargen) << ""
             << std::setfill('-')
-            << std::setw((wColumna * 2) + 10) << ""
+            << "<"
+            << std::setw((wColumna * 2) + 7) << ""
+            << ">"
             << std::setfill(' ')
             << std::endl;
 }
@@ -153,15 +157,16 @@ fila1v1(const std::string & nombre,
      const std::string & contenidoB) {
 
     *stream << std::left
+            << std::setw(wMargen) << ""
             << "||  "
             << std::setw(wColumna) << nombre
-            << "||  "
+            << "|  "
             << std::setw(wColumna) << contenidoA
             << "||"
             << std::setw(wEspacio) << ""
             << "||  "
             << std::setw(wColumna) << nombre
-            << "||  "
+            << "|  "
             << std::setw(wColumna) << contenidoB
             << "||"
             << std::endl;
@@ -170,12 +175,17 @@ fila1v1(const std::string & nombre,
 void Printer::
 linea1v1(void) {
     *stream << std::left
+            << std::setw(wMargen) << ""
             << std::setfill('-')
-            << std::setw((wColumna * 2) + 10) << ""
+            << "<"
+            << std::setw((wColumna * 2) + 7) << ""
+            << ">"
             << std::setfill(' ')
             << std::setw(wEspacio) << ""
             << std::setfill('-')
-            << std::setw((wColumna * 2) + 10) << ""
+            << "<"
+            << std::setw((wColumna * 2) + 7) << ""
+            << ">"
             << std::setfill(' ')
             << std::endl;
 }
@@ -187,6 +197,7 @@ filaGlobal(const std::string & celdaA,
            const std::string & celdaD) {
 
     *stream << std::left
+            << std::setw(wMargen) << ""
             << "|| "
             << std::setw(wColumna) << celdaA
             << "| "
@@ -202,6 +213,7 @@ filaGlobal(const std::string & celdaA,
 void Printer::
 lineaGlobalA(void) {
     *stream << std::left
+            << std::setw(wMargen) << ""
             << std::setfill('-')
             << "<"
             << std::setw((wColumna * 4) + 6) << ""
@@ -213,6 +225,7 @@ lineaGlobalA(void) {
 void Printer::
 lineaGlobalB(char fill) {
     *stream << std::left
+            << std::setw(wMargen) << ""
             << std::setfill(fill)
             << "||"
             << std::setw((wColumna * 2) + 1) << ""
@@ -229,25 +242,81 @@ margen() const {
 }
 
 void Printer::
-mergeAux(void) {
+removeMargen(std::stringstream & stream) {
+    std::stringstream auxStream;
+    std::string linea;
+    std::string margen {this->margen()};
+
+    while (std::getline(stream, linea)) {
+        if (linea.find(margen) == 0)
+            linea.erase(0, margen.length());
+
+        auxStream << linea << std::endl;
+    }
+
+    stream.swap(auxStream);
+    stream.clear();
+    stream.seekg(0);
+}
+
+void Printer::
+insertMargen(std::stringstream & stream) {
+    std::stringstream auxStream;
+    std::string linea;
+    std::string margen {this->margen()};
+
+    while (std::getline(stream, linea)) {
+        if (not linea.empty()) {
+            if (linea.at(0) != ' ')
+                linea.insert(0, margen);
+        }
+
+        auxStream << linea << std::endl;
+    }
+
+    stream.swap(auxStream);
+    stream.clear();
+    stream.seekg(0);
+}
+
+void Printer::
+insertMargen(std::string & linea) const {
+    std::string margen {this->margen()};
+
+    if (not linea.empty()) {
+        if (linea.at(0) != ' ')
+            linea.insert(0, margen);
+    }
+}
+
+void Printer::
+mergeAux(int anchuraIzq) {
 
     setStreamMain();
+
+    removeMargen(*(streamAux.second));
+    insertMargen(*(streamAux.first));
 
     std::string linea;
 
     while (std::getline(*(streamAux.first), linea)) {
-        *streamMain << std::left << std::setw(45) << linea;
+        *streamMain << std::left << std::setw(anchuraIzq) << linea;
         std::getline(*(streamAux.second), linea);
         *streamMain << linea
                     << std::endl;
     }
 
     while (std::getline(*(streamAux.second), linea)) {
-        *streamMain << std::left << std::setw(45) << ""
+        *streamMain << std::left << std::setw(anchuraIzq) << ""
                     << linea
                     << std::endl;
     }
 
+
+
     std::stringstream().swap(*(streamAux.first));
     std::stringstream().swap(*(streamAux.second));
+
+    streamMain->clear();
+    streamMain->seekg(0);
 }

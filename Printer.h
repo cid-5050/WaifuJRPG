@@ -46,8 +46,11 @@ class Printer {
 
 
     std::string margen(void) const;
+    void removeMargen(std::stringstream & stream);
+    void insertMargen(std::stringstream & stream);
+    void insertMargen(std::string & linea) const;
 
-    void mergeAux(void);
+    void mergeAux(int anchuraIzq);
 
  private:
     std::shared_ptr<std::stringstream> streamMain;
