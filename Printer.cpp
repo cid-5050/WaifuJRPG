@@ -24,6 +24,12 @@ Printer() {
     colores.insert({"white", 239});
 
     color = colores.at("black");
+
+    streamMain = std::make_shared<std::stringstream>();
+    streamAux.first = std::make_shared<std::stringstream>();
+    streamAux.second = std::make_shared<std::stringstream>();
+
+    stream = streamMain;
 }
 
 Printer::
@@ -35,19 +41,34 @@ Printer(int wCol, int wMrg, int wSpc) : Printer() {
 
 std::stringstream & Printer::
 getStream() {
-    return stream;
+    return *stream;
+}
+
+void Printer::
+setStreamMain(void) {
+    stream = streamMain;
+}
+
+void Printer::
+setStreamAuxL(void) {
+    stream = streamAux.first;
+}
+
+void Printer::
+setStreamAuxR(void) {
+    stream = streamAux.second;
 }
 
 void Printer::
 clearStream() {
-    std::stringstream().swap(stream);
+    std::stringstream().swap(*stream);
 }
 
 void Printer::
 print() {
     std::string linea;
 
-    while (std::getline(stream, linea)) {
+    while (std::getline(*stream, linea)) {
         linea.insert(0, margen());
         std::cout << linea << std::endl;
     }
@@ -59,7 +80,7 @@ getLinea(std::string & linea) {
 
     resetColor();
 
-    std::getline(stream, linea);
+    std::getline(*stream, linea);
 
     if (linea.find("#") != std::string::npos) {
         strColor = stringSplit(linea, "#").at(1);
@@ -72,7 +93,7 @@ getLinea(std::string & linea) {
 
 void Printer::
 injectColor(const std::string & color) {
-    stream << "#" << colores.at(color) << "#";
+    *stream << "#" << colores.at(color) << "#";
 }
 
 void Printer::
@@ -88,25 +109,35 @@ resetColor(void) {
 }
 
 void Printer::
-filaSingle(const std::string & nombre,
-           const std::string & contenido) {
-
-    stream << std::left
-           << "||  "
-           << std::setw(wColumna) << nombre
-           << "||  "
-           << std::setw(wColumna) << contenido
-           << "||"
-           << std::endl;
+setMargen(int margen) {
+    wMargen = margen;
 }
 
 void Printer::
-lineaSingle() {
-    stream << std::left
-           << std::setfill('-')
-           << std::setw((wColumna * 2) + 10) << ""
-           << std::setfill(' ')
-           << std::endl;
+setColumna(int width) {
+    wColumna = width;
+}
+
+void Printer::
+filaSingle(const std::string & nombre,
+           const std::string & contenido) {
+
+    *stream << std::left
+            << "||  "
+            << std::setw(wColumna) << nombre
+            << "||  "
+            << std::setw(wColumna) << contenido
+            << "||"
+            << std::endl;
+}
+
+void Printer::
+lineaSingle(void) {
+    *stream << std::left
+            << std::setfill('-')
+            << std::setw((wColumna * 2) + 10) << ""
+            << std::setfill(' ')
+            << std::endl;
 }
 
 void Printer::
@@ -114,32 +145,75 @@ fila1v1(const std::string & nombre,
      const std::string & contenidoA,
      const std::string & contenidoB) {
 
-    stream << std::left
-           << "||  "
-           << std::setw(wColumna) << nombre
-           << "||  "
-           << std::setw(wColumna) << contenidoA
-           << "||"
-           << std::setw(wEspacio) << ""
-           << "||  "
-           << std::setw(wColumna) << nombre
-           << "||  "
-           << std::setw(wColumna) << contenidoB
-           << "||"
-           << std::endl;
+    *stream << std::left
+            << "||  "
+            << std::setw(wColumna) << nombre
+            << "||  "
+            << std::setw(wColumna) << contenidoA
+            << "||"
+            << std::setw(wEspacio) << ""
+            << "||  "
+            << std::setw(wColumna) << nombre
+            << "||  "
+            << std::setw(wColumna) << contenidoB
+            << "||"
+            << std::endl;
 }
 
 void Printer::
-linea1v1() {
-    stream << std::left
-           << std::setfill('-')
-           << std::setw((wColumna * 2) + 10) << ""
-           << std::setfill(' ')
-           << std::setw(wEspacio) << ""
-           << std::setfill('-')
-           << std::setw((wColumna * 2) + 10) << ""
-           << std::setfill(' ')
-           << std::endl;
+linea1v1(void) {
+    *stream << std::left
+            << std::setfill('-')
+            << std::setw((wColumna * 2) + 10) << ""
+            << std::setfill(' ')
+            << std::setw(wEspacio) << ""
+            << std::setfill('-')
+            << std::setw((wColumna * 2) + 10) << ""
+            << std::setfill(' ')
+            << std::endl;
+}
+
+void Printer::
+filaGlobal(const std::string & celdaA,
+           const std::string & celdaB,
+           const std::string & celdaC,
+           const std::string & celdaD) {
+
+    *stream << std::left
+            << "|| "
+            << std::setw(wColumna) << celdaA
+            << "| "
+            << std::setw(wColumna - 2) << celdaB
+            << "|| "
+            << std::setw(wColumna) << celdaC
+            << "| "
+            << std::setw(wColumna - 2) << celdaD
+            << "||"
+            << std::endl;
+}
+
+void Printer::
+lineaGlobalA(void) {
+    *stream << std::left
+            << std::setfill('-')
+            << "<"
+            << std::setw((wColumna * 4) + 6) << ""
+            << ">"
+            << std::setfill(' ')
+            << std::endl;
+}
+
+void Printer::
+lineaGlobalB(char fill) {
+    *stream << std::left
+            << std::setfill(fill)
+            << "||"
+            << std::setw((wColumna * 2) + 1) << ""
+            << "||"
+            << std::setw((wColumna * 2) + 1) << ""
+            << "||"
+            << std::setfill(' ')
+            << std::endl;
 }
 
 std::string Printer::
@@ -148,35 +222,25 @@ margen() const {
 }
 
 void Printer::
-sendLeft(void) {
-    streamPair.first << stream.str();
-    clearStream();
-}
+mergeAux(void) {
 
-void Printer::
-sendRight(void) {
-    streamPair.second << stream.str();
-    clearStream();
-}
+    setStreamMain();
 
-void Printer::
-mergePair(void) {
-    clearStream();
     std::string linea;
 
-    while (std::getline(streamPair.first, linea)) {
-        stream << std::left << std::setw(45) << linea;
-        std::getline(streamPair.second, linea);
-        stream << linea;
-        stream << std::endl;
+    while (std::getline(*(streamAux.first), linea)) {
+        *streamMain << std::left << std::setw(45) << linea;
+        std::getline(*(streamAux.second), linea);
+        *streamMain << linea
+                    << std::endl;
     }
 
-    while (std::getline(streamPair.second, linea)) {
-        stream << std::left << std::setw(45) << "";
-        stream << linea;
-        stream << std::endl;
+    while (std::getline(*(streamAux.second), linea)) {
+        *streamMain << std::left << std::setw(45) << ""
+                    << linea
+                    << std::endl;
     }
 
-    std::stringstream().swap(streamPair.first);
-    std::stringstream().swap(streamPair.second);
+    std::stringstream().swap(*(streamAux.first));
+    std::stringstream().swap(*(streamAux.second));
 }

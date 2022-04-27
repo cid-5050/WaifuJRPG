@@ -4,17 +4,20 @@
 
 WaifuJRPG::
 WaifuJRPG() {
-    std::shared_ptr<Personaje> p1 {std::make_shared<Mago>(nombreAleatorio("nombres-a.txt"))};
-    std::shared_ptr<Personaje> p2 = {std::make_shared<Barbaro>(nombreAleatorio("nombres-b.txt"))};
+    equipoA = formarEquipoAleatorio(10);
+    equipoB = formarEquipoAleatorio(10);
 
-    p1->addAdversario(p2);
-    p2->addAdversario(p1);
+    for (const auto & personaje : *equipoA) {
+        personaje->initStats();
+        for (const auto & adversario : *equipoB)
+            personaje->addAdversario(adversario);
+    }
 
-    p1->initStats();
-    p2->initStats();
-
-    partyA->push_back(p1);
-    partyB->push_back(p2);
+    for (const auto & personaje : *equipoB) {
+        personaje->initStats();
+        for (const auto & adversario : *equipoA)
+            personaje->addAdversario(adversario);
+    }
 
     turno = 0;
 }
@@ -29,15 +32,38 @@ evento(void) const {
     return eventos.back();
 }
 
+std::shared_ptr<std::vector<std::shared_ptr<Personaje>>> WaifuJRPG::
+formarEquipoAleatorio(int numIntegrantes) const {
+
+    std::shared_ptr<std::vector<std::shared_ptr<Personaje>>>
+    equipo {std::make_shared<std::vector<std::shared_ptr<Personaje>>>()};
+
+    std::random_device rd;
+    std::default_random_engine defEngine(rd());
+    std::uniform_int_distribution<int> intDistro(0, 1);
+
+    for (int i = 0; i < numIntegrantes; i++) {
+        switch (intDistro(defEngine)) {
+        case 0:
+            equipo->push_back(std::make_shared<Mago>(nombreAleatorio("nombres-a.txt")));
+            break;
+        case 1:
+            equipo->push_back(std::make_shared<Barbaro>(nombreAleatorio("nombres-b.txt")));
+            break;
+        }
+    }
+    return equipo;
+}
+
 void WaifuJRPG::
 next() {
     std::shared_ptr<std::vector<std::shared_ptr<Personaje>>> party;
     std::shared_ptr<Personaje> personaje;
 
     if (turno % 2 == 0)
-        party = partyA;
+        party = equipoA;
     else
-        party = partyB;
+        party = equipoB;
 
     personaje = miembroAleatorio(party);
 
@@ -71,63 +97,63 @@ printerColor(const std::string & color) {
 /*void WaifuJRPG::
 printStats(void) const {
     printer.linea1v1();
-    printer.fila1v1("Nombre", partyA->at(0)->getNombre(), partyB->at(0)->getNombre());
+    printer.fila1v1("Nombre", equipoA->at(0)->getNombre(), equipoB->at(0)->getNombre());
     printer.linea1v1();
-    printer.fila1v1("HP", std::to_string(partyA->at(0)->getHP()), std::to_string(partyB->at(0)->getHP()));
-    printer.fila1v1("Mana", std::to_string(partyA->at(0)->getMana()), std::to_string(partyB->at(0)->getMana()));
-    printer.fila1v1("Stamina", std::to_string(partyA->at(0)->getStamina()), std::to_string(partyB->at(0)->getStamina()));
+    printer.fila1v1("HP", std::to_string(equipoA->at(0)->getHP()), std::to_string(equipoB->at(0)->getHP()));
+    printer.fila1v1("Mana", std::to_string(equipoA->at(0)->getMana()), std::to_string(equipoB->at(0)->getMana()));
+    printer.fila1v1("Stamina", std::to_string(equipoA->at(0)->getStamina()), std::to_string(equipoB->at(0)->getStamina()));
     printer.linea1v1();
-    printer.fila1v1("VIT", std::to_string(partyA->at(0)->getVIT()), std::to_string(partyB->at(0)->getVIT()));
-    printer.fila1v1("END", std::to_string(partyA->at(0)->getEND()), std::to_string(partyB->at(0)->getEND()));
-    printer.fila1v1("ATK", std::to_string(partyA->at(0)->getATK()), std::to_string(partyB->at(0)->getATK()));
-    printer.fila1v1("PDEX", std::to_string(partyA->at(0)->getPDEX()), std::to_string(partyB->at(0)->getPDEX()));
-    printer.fila1v1("MDEX", std::to_string(partyA->at(0)->getMDEX()), std::to_string(partyB->at(0)->getMDEX()));
-    printer.fila1v1("DEF", std::to_string(partyA->at(0)->getDEF()), std::to_string(partyB->at(0)->getDEF()));
-    printer.fila1v1("PRES", std::to_string(partyA->at(0)->getPRES()), std::to_string(partyB->at(0)->getPRES()));
-    printer.fila1v1("MRES", std::to_string(partyA->at(0)->getMRES()), std::to_string(partyB->at(0)->getMRES()));
-    printer.fila1v1("ACC", std::to_string(partyA->at(0)->getACC()), std::to_string(partyB->at(0)->getACC()));
-    printer.fila1v1("EVA", std::to_string(partyA->at(0)->getEVA()), std::to_string(partyB->at(0)->getEVA()));
-    printer.fila1v1("LCK", std::to_string(partyA->at(0)->getLCK()), std::to_string(partyB->at(0)->getLCK()));
+    printer.fila1v1("VIT", std::to_string(equipoA->at(0)->getVIT()), std::to_string(equipoB->at(0)->getVIT()));
+    printer.fila1v1("END", std::to_string(equipoA->at(0)->getEND()), std::to_string(equipoB->at(0)->getEND()));
+    printer.fila1v1("ATK", std::to_string(equipoA->at(0)->getATK()), std::to_string(equipoB->at(0)->getATK()));
+    printer.fila1v1("PDEX", std::to_string(equipoA->at(0)->getPDEX()), std::to_string(equipoB->at(0)->getPDEX()));
+    printer.fila1v1("MDEX", std::to_string(equipoA->at(0)->getMDEX()), std::to_string(equipoB->at(0)->getMDEX()));
+    printer.fila1v1("DEF", std::to_string(equipoA->at(0)->getDEF()), std::to_string(equipoB->at(0)->getDEF()));
+    printer.fila1v1("PRES", std::to_string(equipoA->at(0)->getPRES()), std::to_string(equipoB->at(0)->getPRES()));
+    printer.fila1v1("MRES", std::to_string(equipoA->at(0)->getMRES()), std::to_string(equipoB->at(0)->getMRES()));
+    printer.fila1v1("ACC", std::to_string(equipoA->at(0)->getACC()), std::to_string(equipoB->at(0)->getACC()));
+    printer.fila1v1("EVA", std::to_string(equipoA->at(0)->getEVA()), std::to_string(equipoB->at(0)->getEVA()));
+    printer.fila1v1("LCK", std::to_string(equipoA->at(0)->getLCK()), std::to_string(equipoB->at(0)->getLCK()));
     printer.linea1v1();
-    printer.fila1v1("Clase", partyA->at(0)->getClase(), partyB->at(0)->getClase());
+    printer.fila1v1("Clase", equipoA->at(0)->getClase(), equipoB->at(0)->getClase());
     printer.linea1v1();
 }*/
 
 void WaifuJRPG::
 fullStats1v1(void) {
     printer_.linea1v1();
-    printer_.fila1v1("Nombre", partyA->at(0)->getNombre(), partyB->at(0)->getNombre());
+    printer_.fila1v1("Nombre", equipoA->at(0)->getNombre(), equipoB->at(0)->getNombre());
     printer_.linea1v1();
-    printer_.fila1v1("HP", std::to_string(partyA->at(0)->getHP()), std::to_string(partyB->at(0)->getHP()));
-    printer_.fila1v1("Mana", std::to_string(partyA->at(0)->getMana()), std::to_string(partyB->at(0)->getMana()));
-    printer_.fila1v1("Stamina", std::to_string(partyA->at(0)->getStamina()), std::to_string(partyB->at(0)->getStamina()));
+    printer_.fila1v1("HP", std::to_string(equipoA->at(0)->getHP()), std::to_string(equipoB->at(0)->getHP()));
+    printer_.fila1v1("Mana", std::to_string(equipoA->at(0)->getMana()), std::to_string(equipoB->at(0)->getMana()));
+    printer_.fila1v1("Stamina", std::to_string(equipoA->at(0)->getStamina()), std::to_string(equipoB->at(0)->getStamina()));
     printer_.linea1v1();
-    printer_.fila1v1("VIT", std::to_string(partyA->at(0)->getVIT()), std::to_string(partyB->at(0)->getVIT()));
-    printer_.fila1v1("END", std::to_string(partyA->at(0)->getEND()), std::to_string(partyB->at(0)->getEND()));
-    printer_.fila1v1("ATK", std::to_string(partyA->at(0)->getATK()), std::to_string(partyB->at(0)->getATK()));
-    printer_.fila1v1("PDEX", std::to_string(partyA->at(0)->getPDEX()), std::to_string(partyB->at(0)->getPDEX()));
-    printer_.fila1v1("MDEX", std::to_string(partyA->at(0)->getMDEX()), std::to_string(partyB->at(0)->getMDEX()));
-    printer_.fila1v1("DEF", std::to_string(partyA->at(0)->getDEF()), std::to_string(partyB->at(0)->getDEF()));
-    printer_.fila1v1("PRES", std::to_string(partyA->at(0)->getPRES()), std::to_string(partyB->at(0)->getPRES()));
-    printer_.fila1v1("MRES", std::to_string(partyA->at(0)->getMRES()), std::to_string(partyB->at(0)->getMRES()));
-    printer_.fila1v1("ACC", std::to_string(partyA->at(0)->getACC()), std::to_string(partyB->at(0)->getACC()));
-    printer_.fila1v1("EVA", std::to_string(partyA->at(0)->getEVA()), std::to_string(partyB->at(0)->getEVA()));
-    printer_.fila1v1("LCK", std::to_string(partyA->at(0)->getLCK()), std::to_string(partyB->at(0)->getLCK()));
+    printer_.fila1v1("VIT", std::to_string(equipoA->at(0)->getVIT()), std::to_string(equipoB->at(0)->getVIT()));
+    printer_.fila1v1("END", std::to_string(equipoA->at(0)->getEND()), std::to_string(equipoB->at(0)->getEND()));
+    printer_.fila1v1("ATK", std::to_string(equipoA->at(0)->getATK()), std::to_string(equipoB->at(0)->getATK()));
+    printer_.fila1v1("PDEX", std::to_string(equipoA->at(0)->getPDEX()), std::to_string(equipoB->at(0)->getPDEX()));
+    printer_.fila1v1("MDEX", std::to_string(equipoA->at(0)->getMDEX()), std::to_string(equipoB->at(0)->getMDEX()));
+    printer_.fila1v1("DEF", std::to_string(equipoA->at(0)->getDEF()), std::to_string(equipoB->at(0)->getDEF()));
+    printer_.fila1v1("PRES", std::to_string(equipoA->at(0)->getPRES()), std::to_string(equipoB->at(0)->getPRES()));
+    printer_.fila1v1("MRES", std::to_string(equipoA->at(0)->getMRES()), std::to_string(equipoB->at(0)->getMRES()));
+    printer_.fila1v1("ACC", std::to_string(equipoA->at(0)->getACC()), std::to_string(equipoB->at(0)->getACC()));
+    printer_.fila1v1("EVA", std::to_string(equipoA->at(0)->getEVA()), std::to_string(equipoB->at(0)->getEVA()));
+    printer_.fila1v1("LCK", std::to_string(equipoA->at(0)->getLCK()), std::to_string(equipoB->at(0)->getLCK()));
     printer_.linea1v1();
-    printer_.fila1v1("Clase", partyA->at(0)->getClase(), partyB->at(0)->getClase());
+    printer_.fila1v1("Clase", equipoA->at(0)->getClase(), equipoB->at(0)->getClase());
     printer_.linea1v1();
 }
 
 void WaifuJRPG::
 miniStats1v1(void) {
     printer_.linea1v1();
-    printer_.fila1v1("Nombre", partyA->at(0)->getNombre(), partyB->at(0)->getNombre());
+    printer_.fila1v1("Nombre", equipoA->at(0)->getNombre(), equipoB->at(0)->getNombre());
     printer_.linea1v1();
-    printer_.fila1v1("HP", std::to_string(partyA->at(0)->getHP()), std::to_string(partyB->at(0)->getHP()));
-    printer_.fila1v1("Mana", std::to_string(partyA->at(0)->getMana()), std::to_string(partyB->at(0)->getMana()));
-    printer_.fila1v1("Stamina", std::to_string(partyA->at(0)->getStamina()), std::to_string(partyB->at(0)->getStamina()));
+    printer_.fila1v1("HP", std::to_string(equipoA->at(0)->getHP()), std::to_string(equipoB->at(0)->getHP()));
+    printer_.fila1v1("Mana", std::to_string(equipoA->at(0)->getMana()), std::to_string(equipoB->at(0)->getMana()));
+    printer_.fila1v1("Stamina", std::to_string(equipoA->at(0)->getStamina()), std::to_string(equipoB->at(0)->getStamina()));
     printer_.linea1v1();
-    printer_.fila1v1("Clase", partyA->at(0)->getClase(), partyB->at(0)->getClase());
+    printer_.fila1v1("Clase", equipoA->at(0)->getClase(), equipoB->at(0)->getClase());
     printer_.linea1v1();
 }
 
@@ -201,11 +227,11 @@ print(void) {
 
 bool WaifuJRPG::
 existePersonaje(const std::string & nombre) const {
-    for (const auto & personaje : *partyA) {
+    for (const auto & personaje : *equipoA) {
         if (nombre == personaje->getNombre())
             return true;
     }
-    for (const auto & personaje : *partyB) {
+    for (const auto & personaje : *equipoB) {
         if (nombre == personaje->getNombre())
             return true;
     }
@@ -214,11 +240,11 @@ existePersonaje(const std::string & nombre) const {
 
 std::shared_ptr<Personaje> WaifuJRPG::
 getPersonaje(const std::string & nombre) const {
-    for (const auto & personaje : *partyA) {
+    for (const auto & personaje : *equipoA) {
         if (nombre == personaje->getNombre())
             return personaje;
     }
-    for (const auto & personaje : *partyB) {
+    for (const auto & personaje : *equipoB) {
         if (nombre == personaje->getNombre())
             return personaje;
     }
@@ -228,15 +254,18 @@ getPersonaje(const std::string & nombre) const {
 void WaifuJRPG::
 statsPersonaje(std::shared_ptr<Personaje> personaje) {
 
+    printer_.setStreamAuxL();
+
+    printer() << std::endl;
     printer() << std::endl;
     printer() << std::endl;
     printer() << "Stats de " << personaje->getNombre() << ":" << std::endl;
     printer() << std::endl;
-    printer() << personaje->getNombre() << "ha inflingido 100 puntos" << std::endl;
+    printer() << personaje->getNombre() << " ha inflingido 100 puntos" << std::endl;
     printer() << "de DMG y ha recuperado 100 puntos" << std::endl;
     printer() << "de HP." << std::endl;
 
-    printer_.sendLeft();
+    printer_.setStreamAuxR();
 
     printer_.lineaSingle();
     printer_.filaSingle("Nombre", personaje->getNombre());
@@ -260,14 +289,77 @@ statsPersonaje(std::shared_ptr<Personaje> personaje) {
     printer_.filaSingle("Clase", personaje->getClase());
     printer_.lineaSingle();
 
-    printer_.sendRight();
-
-    printer_.mergePair();
+    printer_.mergeAux();
 }
 
 void WaifuJRPG::
 statsGlobales(void) {
-    // IMPRIME STATS GLOBALES
+    std::shared_ptr<Personaje>  persAnterior;
+
+    printer_.setMargen(8);
+    printer_.setColumna(8);
+
+    printer_.setStreamAuxL();
+
+    printer_.lineaGlobalA();
+    printer_.filaGlobal("Nombre", "HP", "Nombre", "HP");
+    printer_.lineaGlobalB('=');
+
+    for (auto iPersonaje = (*equipoA).begin(); iPersonaje != (*equipoA).end(); ++iPersonaje) {
+        // indice no es par
+        if (std::distance((*equipoA).begin(), iPersonaje) % 2 == 0) {
+            // iterador no es el ultimo
+            if (iPersonaje != ((*equipoA).end() - 1)) {
+                persAnterior = *iPersonaje;
+            } else {
+                printer_.filaGlobal((*iPersonaje)->getNombre(),
+                                    std::to_string((*iPersonaje)->getHP()),
+                                    "", "");
+            }
+        } else {
+            printer_.filaGlobal(persAnterior->getNombre(),
+                                std::to_string(persAnterior->getHP()),
+                                (*iPersonaje)->getNombre(),
+                                std::to_string((*iPersonaje)->getHP()));
+
+            // iterador no es el ultimo
+            if (iPersonaje != ((*equipoA).end() - 1))
+                printer_.lineaGlobalB('-');
+        }
+    }
+    printer_.lineaGlobalA();
+
+    printer_.setStreamAuxR();
+
+    printer_.lineaGlobalA();
+    printer_.filaGlobal("Nombre", "HP", "Nombre", "HP");
+    printer_.lineaGlobalB('=');
+
+    for (auto iPersonaje = (*equipoB).begin(); iPersonaje != (*equipoB).end(); ++iPersonaje) {
+        // indice no es par
+        if (std::distance((*equipoB).begin(), iPersonaje) % 2 == 0) {
+            // iterador no es el ultimo
+            if (iPersonaje != ((*equipoB).end() - 1)) {
+                persAnterior = *iPersonaje;
+            } else {
+                printer_.filaGlobal((*iPersonaje)->getNombre(),
+                                    std::to_string((*iPersonaje)->getHP()),
+                                    "", "");
+            }
+        } else {
+            printer_.filaGlobal(persAnterior->getNombre(),
+                                std::to_string(persAnterior->getHP()),
+                                (*iPersonaje)->getNombre(),
+                                std::to_string((*iPersonaje)->getHP()));
+
+            // iterador no es el ultimo
+            if (iPersonaje != ((*equipoB).end() - 1))
+                printer_.lineaGlobalB('-');
+        }
+    }
+    printer_.lineaGlobalA();
+
+    printer_.mergeAux();
 }
 
 int WaifuJRPG::

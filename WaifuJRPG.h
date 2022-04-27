@@ -14,6 +14,10 @@ class WaifuJRPG {
     int getTurno(void) const;
 
     std::shared_ptr<CombatEvent> evento(void) const;
+
+    std::shared_ptr<std::vector<std::shared_ptr<Personaje>>>
+    formarEquipoAleatorio(int numIntegrantes) const;
+
     std::shared_ptr<Personaje> miembroAleatorio(
             std::shared_ptr<std::vector<std::shared_ptr<Personaje>>>) const;
     void next(void);
@@ -37,10 +41,8 @@ class WaifuJRPG {
 
   private:
     int turno;
-    std::shared_ptr<std::vector<std::shared_ptr<Personaje>>> partyA
-    {std::make_shared<std::vector<std::shared_ptr<Personaje>>>()};
-    std::shared_ptr<std::vector<std::shared_ptr<Personaje>>> partyB
-    {std::make_shared<std::vector<std::shared_ptr<Personaje>>>()};
+    std::shared_ptr<std::vector<std::shared_ptr<Personaje>>> equipoA;
+    std::shared_ptr<std::vector<std::shared_ptr<Personaje>>> equipoB;
     std::vector<std::shared_ptr<CombatEvent>> eventos;
     Printer printer_;
 };

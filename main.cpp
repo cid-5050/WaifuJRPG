@@ -61,11 +61,12 @@ int main() {
 
         case 2:
             game.printer() << std::endl;
-            //game.statsGlobales() << std::endl;
+            game.printer() << std::endl;
+            game.printer() << std::endl;
+            game.statsGlobales();
 
             break;
         case 3:
-            game.printer() << std::endl;
             game.statsPersonaje(game.getPersonaje(comando));
 
             break;
